@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Happening 'Round the Sound — May 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:    #c8a84b;
+    --gold-lt: #e8d49a;
+    --dark:    #1a1a1a;
+    --mid:     #3a3a3a;
+    --muted:   #888;
+    --cream:   #f9f6ef;
+    --blue-bg: #edf4f9;
+    --blue-bd: #3a7ca5;
+    --blue-lbl:#2a5a7a;
+    --grn-bg:  #edf5f0;
+    --grn-bd:  #4a8c6a;
+    --grn-lbl: #2e6048;
+    --king-bg: #f9f6ef;
+    --king-bd: #c8a84b;
+    --king-lbl:#7a6520;
+    --radius:  6px;
+    --shadow:  0 2px 16px rgba(0,0,0,0.08);
+    --trans:   0.22s ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f4f1ea;
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--dark);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(200,168,75,0.04) 40px,
+      rgba(200,168,75,0.04) 41px
+    );
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    margin-top: 12px;
+  }
+  .hero-rule {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 20px auto 0;
+    opacity: 0.6;
+  }
+
+  /* ── TABS ── */
+  .tabs-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--dark);
+    border-bottom: 1px solid rgba(200,168,75,0.2);
+  }
+  .tabs {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 16px 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    transition: color var(--trans), border-bottom var(--trans);
+    border-bottom: 3px solid transparent;
+    position: relative;
+  }
+  .tab-btn:hover { color: rgba(255,255,255,0.75); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .tab-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+  .tab-btn[data-county="king"]      .tab-dot { background: var(--gold); }
+  .tab-btn[data-county="snohomish"] .tab-dot { background: var(--blue-bd); }
+  .tab-btn[data-county="pierce"]    .tab-dot { background: var(--grn-bd); }
+
+  /* ── CONTENT ── */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .county-panel { display: none; }
+  .county-panel.active { display: block; animation: fadeUp 0.3s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .county-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .county-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--dark);
+  }
+  .county-count {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── EVENT CARDS ── */
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+  }
+
+  .event-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform var(--trans), box-shadow var(--trans);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+  }
+
+  /* County accent bar */
+  .card-bar { height: 4px; flex-shrink: 0; }
+  .king .card-bar      { background: var(--king-bd); }
+  .snohomish .card-bar { background: var(--blue-bd); }
+  .pierce .card-bar    { background: var(--grn-bd); }
+
+  /* Image placeholder */
+  .card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+    background: #e8e4dc;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .card-img-placeholder {
+    width: 100%;
+    height: 150px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Gradient background by county */
+  .king .card-img-placeholder      { background: linear-gradient(135deg, #2a1f05, #6b4f10); }
+  .snohomish .card-img-placeholder { background: linear-gradient(135deg, #0d2535, #1e4f6e); }
+  .pierce .card-img-placeholder    { background: linear-gradient(135deg, #0d2218, #1e5c3a); }
+
+  .card-img-placeholder svg {
+    width: 28px; height: 28px;
+    opacity: 0.5;
+  }
+  .card-img-placeholder span { opacity: 0.55; }
+
+  /* Decorative diagonal lines on placeholder */
+  .card-img-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 12px,
+      rgba(255,255,255,0.03) 12px,
+      rgba(255,255,255,0.03) 13px
+    );
+  }
+
+  .card-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-date {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .king .card-date      { color: var(--king-lbl); }
+  .snohomish .card-date { color: var(--blue-lbl); }
+  .pierce .card-date    { color: var(--grn-lbl); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    flex: 1;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .king .card-link      { color: var(--king-bd); }
+  .snohomish .card-link { color: var(--blue-bd); }
+  .pierce .card-link    { color: var(--grn-bd); }
+  .card-link::after { content: '→'; }
+
+  /* ── FOOTER CTA ── */
+  .footer-cta {
+    background: var(--dark);
+    text-align: center;
+    padding: 48px 24px;
+  }
+  .footer-cta p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--dark);
+    padding: 14px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background var(--trans);
+  }
+  .cta-btn:hover { background: var(--gold-lt); }
+
+  /* ── ATTRIBUTION ── */
+  .attribution {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── EMAIL TEASER BLOCK ── (separate section below) ── */
+  .email-section {
+    background: #e8e4d8;
+    padding: 60px 24px;
+  }
+  .email-section-inner {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .email-section h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .email-section p {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* The actual embeddable email HTML block */
+  .email-preview {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 24px;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.4;
+  }
+  .email-preview code {
+    display: block;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: #333;
+    margin-top: 12px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  /* ── FAVORITE BUTTON ── */
+  .card-fav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.18);
+    transition: transform 0.15s ease, background 0.15s ease;
+    flex-shrink: 0;
+  }
+  .card-fav:hover { transform: scale(1.12); }
+  .card-fav svg {
+    width: 17px; height: 17px;
+    transition: fill 0.18s ease, stroke 0.18s ease;
+    stroke: #aaa;
+    fill: none;
+    stroke-width: 2;
+  }
+  .card-fav.is-fav { background: #fff0f0; }
+  .card-fav.is-fav svg { stroke: #e05050; fill: #e05050; }
+  .card-fav.pop { animation: heartPop 0.28s ease; }
+  @keyframes heartPop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.35); }
+    100% { transform: scale(1); }
+  }
+
+  /* Card needs relative positioning for the abs button */
+  .event-card { position: relative; }
+
+  /* Favorited card ring */
+  .event-card.is-fav {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  /* ── MY LIST TAB BADGE ── */
+  .tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 9px;
+    font-weight: 700;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .tab-badge.visible { opacity: 1; transform: scale(1); }
+
+  /* ── MY LIST PANEL ── */
+  .mylist-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .mylist-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--dark);
+  }
+  .mylist-clear {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #aaa;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.15s;
+  }
+  .mylist-clear:hover { color: #e05050; }
+
+  /* Empty state */
+  .mylist-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .mylist-empty svg {
+    width: 48px; height: 48px;
+    stroke: #ccc;
+    fill: none;
+    stroke-width: 1.5;
+    margin-bottom: 16px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mylist-empty p {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: #bbb;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .mylist-empty span { font-size: 13px; color: #ccc; }
+
+  /* County label pill on My List cards */
+  .card-county-pill {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+  }
+  .king .card-county-pill      { background: var(--king-bg); color: var(--king-lbl); }
+  .snohomish .card-county-pill { background: var(--blue-bg); color: var(--blue-lbl); }
+  .pierce .card-county-pill    { background: var(--grn-bg);  color: var(--grn-lbl);  }
+
+  /* mobile */
+  @media (max-width: 540px) {
+    .events-grid { grid-template-columns: 1fr; }
+    .tab-btn { font-size: 10px; padding: 14px 8px; letter-spacing: 0.8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
+<header class="hero">
+  <p style="font-family:'Playfair Display',serif; font-size:clamp(20px,3.5vw,32px); font-weight:600; color:#fff; letter-spacing:0.5px; margin-bottom:6px;">John Mize Real Estate</p>
+  <p class="hero-eyebrow" style="margin-bottom:20px;">Century 21 Real Estate Center</p>
+  <h1>What's Happening<br><em>'Round the Sound</em></h1>
+  <p class="hero-sub">May 2026 &nbsp;·&nbsp; King · Snohomish · Pierce</p>
+  <div class="hero-rule"></div>
+</header>
+
+<!-- ══ COUNTY TABS ════════════════════════════════════════════ -->
+<nav class="tabs-wrap" role="tablist" aria-label="County selector">
+  <div class="tabs">
+    <button class="tab-btn active" data-county="king" role="tab" aria-selected="true">
+      <span class="tab-dot"></span>King County
+    </button>
+    <button class="tab-btn" data-county="snohomish" role="tab" aria-selected="false">
+      <span class="tab-dot"></span>Snohomish County
+    </button>
+    <button class="tab-btn" data-county="pierce" role="tab" aria-selected="false">
+      <span class="tab-dot"></span>Pierce County
+    </button>
+    <button class="tab-btn" data-county="mylist" role="tab" aria-selected="false" style="color:rgba(255,255,255,0.45);">
+      ♥ My List<span class="tab-badge" id="fav-badge">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ EVENT PANELS ═══════════════════════════════════════════ -->
+<main class="content">
+
+  <!-- ── KING COUNTY ── -->
+  <section class="county-panel active" id="panel-king" role="tabpanel">
+    <div class="county-header">
+      <h2>King County</h2>
+      <span class="county-count">8 events this month</span>
+    </div>
+    <div class="events-grid">
+
+      <a class="event-card king" href="https://www.seattleartmuseum.org/whats-on/events/teen-night-out-2025-childhood-whimsy-may-9" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <!-- REPLACE: swap card-img-placeholder for <img class="card-img" src="IMAGE_URL" alt="..."> -->
+        <img class="card-img" src="https://www.seattleartmuseum.org/assets/sam-socials-brand-location-gradient.png" alt="Teen Night Out at Seattle Art Museum" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 1</p>
+          <h3 class="card-title">Teen Night Out at Seattle Art Museum</h3>
+          <p class="card-desc">Free teen-focused event with DJ music, art making, fashion, games, and museum activities.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://srweek.org/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 1–2</p>
+          <h3 class="card-title">Seattle Restaurant Week</h3>
+          <p class="card-desc">Special prix-fixe menus at restaurants across Seattle and the Eastside — great excuse to try something new.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://www.elcentrodelaraza.org/events/cinco-de-mayo/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://www.elcentrodelaraza.org/wp-content/uploads/2019/09/Nicole-LaBrie_Cinco-de-Mayo_13-scaled.jpg" alt="Cinco de Mayo" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 2</p>
+          <h3 class="card-title">Cinco de Mayo at El Centro de la Raza</h3>
+          <p class="card-desc">Free cultural celebration with Mexican food, live music, children's activities, and a craft fair.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://windermerecup.com/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://windermerecup.com/files/2019/02/CLM_20140503_0525.jpg" alt="Opening Day Boat Parade" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 2</p>
+          <h3 class="card-title">Opening Day Boat Parade & Windermere Cup</h3>
+          <p class="card-desc">Free outdoor viewing of rowing races and the boat parade through the Montlake Cut — a true Seattle tradition.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://www.jcccw.org/kodomo-no-hi" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://static1.squarespace.com/static/59a20308893fc05119157aa0/t/67f074f2dfd8146435abfd5c/1758315566502/KodomonoHi2025_Banner.jpg?format=1500w" alt="Children's Day Festival" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 3</p>
+          <h3 class="card-title">Children's Day Festival — Kodomo no Hi</h3>
+          <p class="card-desc">Free family cultural event with martial arts, taiko drumming, tea ceremony demos, and local food vendors.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://downtownissaquah.com/events/artwalk-music-stroll-all-season/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://downtownissaquah.com/wp-content/uploads/2023/04/WebSquare-AWMS-2-title-only-1.jpg" alt="ArtWalk Issaquah" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 9</p>
+          <h3 class="card-title">ArtWalk & Music Stroll, Issaquah</h3>
+          <p class="card-desc">Olde Town Issaquah art and music stroll — a walkable evening through galleries, studios, and live performance.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://www.lakesammamishfriends.org/events-old/2024/5/4/walk-n-wag-dgjz3" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="http://static1.squarespace.com/static/5a67ec31dc2b4a87a4e45a19/5a68f9d69140b7f645cf8c6b/6949a53579102240f48be09f/1777494299980/Spring+WnW.png?format=1500w" alt="Walk n Wag" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 9</p>
+          <h3 class="card-title">Walk n' Wag at Lake Sammamish State Park</h3>
+          <p class="card-desc">Outdoor 3K dog walk with vendors, activities, entertainment, and a pet show at the park.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card king" href="https://seattlecenter.com/events/event-calendar/a-glimpse-of-china-seattle-chinese-culture-and-arts-festival" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://seattlecenter.com/assets/Images/Events/Productions/Festal/China/Hero/China-Dancer-2022-Hero-1800x820.jpg" alt="A Glimpse of China" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 9</p>
+          <h3 class="card-title">A Glimpse of China</h3>
+          <p class="card-desc">Free Seattle Center festival with Chinese food, music, arts and crafts, calligraphy, painting, and traditional clothing.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+    </div><!-- /events-grid -->
+  </section>
+
+  <!-- ── SNOHOMISH COUNTY ── -->
+  <section class="county-panel" id="panel-snohomish" role="tabpanel">
+    <div class="county-header">
+      <h2>Snohomish County</h2>
+      <span class="county-count">8 events this month</span>
+    </div>
+    <div class="events-grid">
+
+      <a class="event-card snohomish" href="https://www.facebook.com/events/edward-d-hansen-conference-center/spring-art-festival-craft-galore/884696300916808/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 2</p>
+          <h3 class="card-title">PAC NW Artisans Spring Art Festival & Craft Galore</h3>
+          <p class="card-desc">Craft and artisan market at the Edward D. Hansen Conference Center in Everett.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://www.angelofthewindsarena.com/everett-community-ice-rink/public-ice-skating/community-access-night" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://www.angelofthewindsarena.com/assets/img/default_thumb-f445658385.png" alt="Community Access Skate Night" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 8</p>
+          <h3 class="card-title">Community Access Skate Night</h3>
+          <p class="card-desc">Free public skate night at Everett Community Ice Rink — open to all ages, no experience needed.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://urbancraftuprising.com/edmonds-spring-fest/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 9</p>
+          <h3 class="card-title">Edmonds Spring Fest</h3>
+          <p class="card-desc">Free outdoor art fair with 100 local artists and food trucks at Frances Anderson Center.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://daybreakersrotary.com/events/jazz/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 9</p>
+          <h3 class="card-title">Edmonds Jazz Connection</h3>
+          <p class="card-desc">Free student jazz festival across three Edmonds venues — big bands, combos, and choral groups.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://everettfarmersmarket.com/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://everettfarmersmarket.com/wp-content/uploads/2021/02/thank-you-efm.png" alt="Everett Farmers Market" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">Sundays from May 10</p>
+          <h3 class="card-title">Everett Farmers Market</h3>
+          <p class="card-desc">Season opens! Long-running market with farmers, producers, and handmade goods in downtown Everett every Sunday.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://www.imaginecm.org/community-access-night/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 21</p>
+          <h3 class="card-title">Free Community Access Night — Imagine Children's Museum</h3>
+          <p class="card-desc">Free or pay-what-you-can evening for families with children 12 and under at Imagine Children's Museum.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://everettartwalk.org/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 21</p>
+          <h3 class="card-title">Everett Art Walk</h3>
+          <p class="card-desc">Downtown gallery and venue walk with rotating exhibits across multiple Everett locations.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card snohomish" href="https://www.cruzin2colby.com/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://static.wixstatic.com/media/ee3049_795e61ff56884277bba339b3e00a4470~mv2.jpg/v1/fill/w_1368,h_912,al_c/ee3049_795e61ff56884277bba339b3e00a4470~mv2.jpg" alt="Cruzin to Colby Car Show" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 24–25</p>
+          <h3 class="card-title">26th Annual Cruzin' to Colby Car Show</h3>
+          <p class="card-desc">Classic car show and cruise down Colby Avenue — one of downtown Everett's biggest community events of the year.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── PIERCE COUNTY ── -->
+  <section class="county-panel" id="panel-pierce" role="tabpanel">
+    <div class="county-header">
+      <h2>Pierce County</h2>
+      <span class="county-count">8 events this month</span>
+    </div>
+    <div class="events-grid">
+
+      <a class="event-card pierce" href="https://www.write253.org/tacoma-wayzgoose" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 1–2</p>
+          <h3 class="card-title">Tacoma Wayzgoose</h3>
+          <p class="card-desc">Free printing festival with printers, papermaking, art activities, and steamroller printing at Tacoma Public Library.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://lakewoldgardens.org/mothers-day-stroll/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <div class="card-img-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:150px;flex-shrink:0;"><svg viewBox="0 0 120 50" width="96" height="40" style="opacity:0.85;"><text x="60" y="22" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" letter-spacing="3" fill="#c8a84b">CENTURY 21</text><text x="60" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="rgba(200,168,75,0.6)">REAL ESTATE CENTER</text></svg></div>
+        <div class="card-body">
+          <p class="card-date">May 9–10</p>
+          <h3 class="card-title">Mother's Day Stroll at Lakewold Gardens</h3>
+          <p class="card-desc">Outdoor garden event in Lakewood — beautiful flowers, family-friendly, perfect for a relaxed Mother's Day outing.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://www.thefair.com/events/spring-market/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://www.datocms-assets.com/118003/1770924789-screenshot_20251231_133645_chrome.jpg?w=1000&fit=max&auto=format" alt="Spring Market" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 9–10</p>
+          <h3 class="card-title">Spring Market at Washington State Fairgrounds</h3>
+          <p class="card-desc">Local shopping and community market with food, crafts, and casual family browsing at the Puyallup fairgrounds.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://forterra.org/visit/morse-wildlife-preserve/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://forterra.org/wp-content/uploads/2022/01/OldBarnWildflowers_MorseWildlifePreserve_ToddParker_200005-e1498592131553.jpg" alt="Morse Wildlife Preserve" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 10 &nbsp;·&nbsp; 9am–3pm</p>
+          <h3 class="card-title">Morse Wildlife Preserve Open Day</h3>
+          <p class="card-desc">Rare public access day at Morse Wildlife Preserve in Graham — trails, birding, and nature exploration. Click "Visitor Information" at the link for details.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://www.parkstacoma.gov/event/queen-victorias-birthday/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://www.parkstacoma.gov/wp-content/uploads/2022/03/8V1A5670-queens-bday-fort-web-res.jpg" alt="Queen Victoria's Birthday" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 16</p>
+          <h3 class="card-title">Queen Victoria's Birthday — Fort Nisqually</h3>
+          <p class="card-desc">Living history event at Fort Nisqually with costumed interpreters, demonstrations, and family-friendly Victorian fun.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://www.thefair.com/events/dozer-day-seattle/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://www.datocms-assets.com/118003/1741388473-dozer-day.jpg?w=1000&fit=max&auto=format" alt="Dozer Day" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 16–17</p>
+          <h3 class="card-title">Dozer Day</h3>
+          <p class="card-desc">Kid heaven at the Washington State Fairgrounds — hands-on construction equipment, rides, and family activities.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://www.waterfrontfarmersmarket.org/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://static.wixstatic.com/media/563201_6c7952c4256e42a29f093652df870a8f~mv2.png/v1/fill/w_600,h_600,al_c/563201_6c7952c4256e42a29f093652df870a8f~mv2.png" alt="Waterfront Farmers Market" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">Thursdays from May 21</p>
+          <h3 class="card-title">Waterfront Farmers Market — Gig Harbor</h3>
+          <p class="card-desc">Outdoor market at Skansie Brothers Park with local vendors, produce, and waterfront views every Thursday.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+      <a class="event-card pierce" href="https://cityoflakewood.us/street-festivals/" target="_blank" rel="noopener">
+        <div class="card-bar"></div>
+        <img class="card-img" src="https://cityoflakewood.us/wp-content/uploads/2023/03/Lakewood-Fiesta-Fest127-1024x683.jpg" alt="Lakewood Street Festival" width="100%" style="display:block; width:100%; height:150px; object-fit:cover; border:0;" />
+        <div class="card-body">
+          <p class="card-date">May 29</p>
+          <h3 class="card-title">Lakewood Street Festival</h3>
+          <p class="card-desc">Community street festival at Colonial Plaza with local food, live entertainment, and a broad family-friendly format.</p>
+          <span class="card-link">Learn more</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── MY LIST PANEL ── -->
+  <section class="county-panel" id="panel-mylist" role="tabpanel">
+    <div class="mylist-header">
+      <h2>My List</h2>
+      <button class="mylist-clear" id="clear-all-btn">Clear all</button>
+    </div>
+    <div class="events-grid" id="mylist-grid">
+      <!-- Populated by JS -->
+    </div>
+    <div class="mylist-empty" id="mylist-empty">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <p>Nothing saved yet</p>
+      <span>Tap the ♥ on any event to add it here</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ FOOTER CTA ════════════════════════════════════════════ -->
+<footer class="footer-cta">
+  <p>Ready to make one of these places home?</p>
+  <a class="cta-btn" href="https://start.johnmizerealestate.com" target="_blank">Talk to John</a>
+</footer>
+
+<!-- ══ EMAIL TEASER BLOCK ════════════════════════════════════ -->
+<!--
+  INSTRUCTIONS: The section below shows the suggested email teaser
+  block HTML you can paste directly into your EO newsletter.
+  Delete everything below this comment block before publishing the
+  events page to your live site.
+-->
+<section class="email-section">
+  <div class="email-section-inner">
+    <h3>Email teaser block — paste into EO newsletter</h3>
+    <p>Replace your current events section with the compact block below. It links readers to this page with one click per county.</p>
+
+    <div class="email-preview">
+      <p style="margin-bottom:12px;font-weight:500;">Preview of the email block:</p>
+
+      <!-- THE ACTUAL EMAIL HTML BLOCK STARTS HERE -->
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+        <tr>
+          <td align="center" bgcolor="#c8a84b" style="padding:12px 20px;background-color:#c8a84b;">
+            <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:3px;color:#1a1a1a;text-transform:uppercase;">What's Happening 'Round the Sound</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="#1a1a1a" style="padding:6px 20px;background-color:#1a1a1a;">
+            <p style="margin:0;font-family:Arial,sans-serif;font-size:10px;letter-spacing:2px;color:#c8a84b;text-transform:uppercase;">May 2026 &nbsp;·&nbsp; 24 events across three counties</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:20px 0 8px;">
+            <p style="margin:0 0 16px;font-family:Georgia,serif;font-size:14px;color:#444;line-height:1.7;">From free outdoor festivals to farmers markets, living history, and family days — there's something happening across King, Snohomish, and Pierce counties every weekend this month. Select your county to explore:</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="33%" style="padding:0 4px 0 0;">
+                  <a href="YOUR-PAGE-URL-HERE#panel-king" style="display:block;background-color:#f9f6ef;border-left:4px solid #c8a84b;padding:14px 12px;text-decoration:none;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#7a6520;">
+                    King County<br>
+                    <span style="font-size:10px;font-weight:normal;color:#888;">8 events →</span>
+                  </a>
+                </td>
+                <td width="33%" style="padding:0 4px;">
+                  <a href="YOUR-PAGE-URL-HERE#panel-snohomish" style="display:block;background-color:#edf4f9;border-left:4px solid #3a7ca5;padding:14px 12px;text-decoration:none;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#2a5a7a;">
+                    Snohomish County<br>
+                    <span style="font-size:10px;font-weight:normal;color:#888;">8 events →</span>
+                  </a>
+                </td>
+                <td width="33%" style="padding:0 0 0 4px;">
+                  <a href="YOUR-PAGE-URL-HERE#panel-pierce" style="display:block;background-color:#edf5f0;border-left:4px solid #4a8c6a;padding:14px 12px;text-decoration:none;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#2e6048;">
+                    Pierce County<br>
+                    <span style="font-size:10px;font-weight:normal;color:#888;">8 events →</span>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <!-- THE ACTUAL EMAIL HTML BLOCK ENDS HERE -->
+    </div>
+
+    <p style="margin-top:16px;font-size:12px;color:#888;">Replace <code>YOUR-PAGE-URL-HERE</code> with the published URL of this events page. The anchor links (#panel-king etc.) will auto-select the right tab on arrival.</p>
+  </div>
+</section>
+
+<p class="attribution">Events sourced from visiteverett.com · visitpiercecounty.com · events12.com · issaquahwa.gov &nbsp;·&nbsp; John Mize Real Estate · Century 21 Real Estate Center</p>
+
+<!-- ══ FAVORITES + TAB SWITCHING JS ══════════════════════════ -->
+<script>
+  // ── Data: pull all event data from the DOM on load ──────────
+  // Each card needs a stable ID. We derive one from the title.
+  function slugify(str) {
+    return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  // ── Storage ─────────────────────────────────────────────────
+  function getFavs() {
+    try { return JSON.parse(localStorage.getItem('rts-favs') || '[]'); }
+    catch(e) { return []; }
+  }
+  function saveFavs(arr) {
+    try { localStorage.setItem('rts-favs', JSON.stringify(arr)); }
+    catch(e) {}
+  }
+
+  // ── Badge ───────────────────────────────────────────────────
+  const badge = document.getElementById('fav-badge');
+  function updateBadge() {
+    const n = getFavs().length;
+    badge.textContent = n;
+    badge.classList.toggle('visible', n > 0);
+  }
+
+  // ── Heart button inject ──────────────────────────────────────
+  // Adds a ♥ button overlay to every event card in county panels
+  function injectHeartButtons() {
+    document.querySelectorAll('#panel-king .event-card, #panel-snohomish .event-card, #panel-pierce .event-card')
+      .forEach(card => {
+        // Gather card data
+        const titleEl = card.querySelector('.card-title');
+        const dateEl  = card.querySelector('.card-date');
+        const descEl  = card.querySelector('.card-desc');
+        const imgEl   = card.querySelector('.card-img-placeholder, .card-img');
+        const county  = card.classList.contains('king') ? 'King County'
+                      : card.classList.contains('snohomish') ? 'Snohomish County'
+                      : 'Pierce County';
+        const countyKey = card.classList.contains('king') ? 'king'
+                        : card.classList.contains('snohomish') ? 'snohomish'
+                        : 'pierce';
+        const id = slugify(titleEl.textContent.trim());
+
+        // Tag card with data-id for cross-referencing
+        card.dataset.id = id;
+
+        // Store metadata on card for My List rendering
+        card._meta = {
+          id,
+          title:    titleEl.textContent.trim(),
+          date:     dateEl  ? dateEl.textContent.trim() : '',
+          desc:     descEl  ? descEl.textContent.trim() : '',
+          href:     card.href,
+          county,
+          countyKey,
+          imgHTML:  imgEl ? imgEl.outerHTML : '',
+        };
+
+        // Create heart button
+        const btn = document.createElement('button');
+        btn.className = 'card-fav';
+        btn.setAttribute('aria-label', 'Save to My List');
+        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+        card.appendChild(btn);
+
+        // Sync initial state
+        if (getFavs().includes(id)) {
+          card.classList.add('is-fav');
+          btn.classList.add('is-fav');
+        }
+
+        // Toggle on click — stop propagation so card link doesn't fire
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFav(card, btn, id);
+        });
+      });
+  }
+
+  function toggleFav(card, btn, id) {
+    let favs = getFavs();
+    const adding = !favs.includes(id);
+    if (adding) {
+      favs.push(id);
+    } else {
+      favs = favs.filter(f => f !== id);
+    }
+    saveFavs(favs);
+
+    card.classList.toggle('is-fav', adding);
+    btn.classList.toggle('is-fav', adding);
+    btn.classList.remove('pop');
+    void btn.offsetWidth; // reflow to restart animation
+    btn.classList.add('pop');
+
+    updateBadge();
+    renderMyList();
+  }
+
+  // ── My List renderer ─────────────────────────────────────────
+  function renderMyList() {
+    const favs    = getFavs();
+    const grid    = document.getElementById('mylist-grid');
+    const empty   = document.getElementById('mylist-empty');
+
+    if (favs.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    // Collect meta from source cards (already in DOM)
+    const allCards = document.querySelectorAll(
+      '#panel-king .event-card, #panel-snohomish .event-card, #panel-pierce .event-card'
+    );
+    const metaMap = {};
+    allCards.forEach(c => { if (c._meta) metaMap[c._meta.id] = c._meta; });
+
+    grid.innerHTML = favs.map(id => {
+      const m = metaMap[id];
+      if (!m) return '';
+      const countyLabel = m.county;
+      return `
+        <a class="event-card ${m.countyKey}" href="${m.href}" target="_blank" rel="noopener" data-id="${m.id}">
+          <div class="card-bar"></div>
+          ${m.imgHTML}
+          <div class="card-body">
+            <span class="card-county-pill">${countyLabel}</span>
+            <p class="card-date">${m.date}</p>
+            <h3 class="card-title">${m.title}</h3>
+            <p class="card-desc">${m.desc}</p>
+            <span class="card-link">Learn more</span>
+          </div>
+          <button class="card-fav is-fav" aria-label="Remove from My List">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#e05050" fill="#e05050" stroke-width="2"/></svg>
+          </button>
+        </a>`;
+    }).join('');
+
+    // Wire up remove buttons on My List cards
+    grid.querySelectorAll('.card-fav').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const listCard = btn.closest('.event-card');
+        const id = listCard.dataset.id;
+        // Mirror toggle on source card
+        const srcCard = document.querySelector(`#panel-king [data-id="${id}"], #panel-snohomish [data-id="${id}"], #panel-pierce [data-id="${id}"]`);
+        if (srcCard) {
+          const srcBtn = srcCard.querySelector('.card-fav');
+          toggleFav(srcCard, srcBtn, id);
+        } else {
+          // Card not in current DOM view — just remove from storage
+          let favs = getFavs().filter(f => f !== id);
+          saveFavs(favs);
+          updateBadge();
+          renderMyList();
+        }
+      });
+    });
+  }
+
+  // ── Tab switching ────────────────────────────────────────────
+  const tabs   = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.county-panel');
+
+  function switchTab(county) {
+    tabs.forEach(t => {
+      const active = t.dataset.county === county;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', active);
+    });
+    panels.forEach(p => {
+      p.classList.toggle('active', p.id === 'panel-' + county);
+    });
+    if (county === 'mylist') renderMyList();
+  }
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.county));
+  });
+
+  // Clear all
+  document.getElementById('clear-all-btn').addEventListener('click', () => {
+    if (!confirm('Clear your entire My List?')) return;
+    saveFavs([]);
+    // Un-fav all source cards
+    document.querySelectorAll('.event-card.is-fav').forEach(c => {
+      c.classList.remove('is-fav');
+      const b = c.querySelector('.card-fav');
+      if (b) b.classList.remove('is-fav');
+    });
+    updateBadge();
+    renderMyList();
+  });
+
+  // ── Init ────────────────────────────────────────────────────
+  injectHeartButtons();
+  updateBadge();
+
+  // Honor URL hash on load
+  const hash = location.hash.replace('#panel-', '');
+  if (['king','snohomish','pierce','mylist'].includes(hash)) {
+    switchTab(hash);
+  }
+</script>
+
+</body>
+</html>
