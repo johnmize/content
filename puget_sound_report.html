@@ -9,8 +9,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   :root {
-    --c21LegacyGold: #FFC72C;
-    --c21DarkGold: #a19276;
+    --gold: #C4922A;
+    --gold-light: #F5E9D0;
     --green: #1D9E75;
     --blue: #2C6FAC;
     --coral: #C85A30;
@@ -30,7 +30,7 @@
   .brand-name { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--text); }
   .brand-sub { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
   .report-meta { text-align: right; }
-  .report-meta-title { font-size: 0.78rem; font-weight: 500; color: var(--coral); letter-spacing: 0.05em; text-transform: uppercase; }
+  .report-meta-title { font-size: 0.78rem; font-weight: 500; color: var(--gold); letter-spacing: 0.05em; text-transform: uppercase; }
   .report-meta-date { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 
   .hero-strip { background: var(--text); color: var(--white); padding: 1rem 2rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
@@ -45,14 +45,14 @@
   .tab-bar { display: flex; gap: 10px; }
   .tab-btn { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.55rem 1.3rem; cursor: pointer; border: 1.5px solid transparent; border-radius: 100px; background: var(--surface); color: var(--text-muted); opacity: 0.45; transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; letter-spacing: 0.01em; }
   .tab-btn:hover:not(.active) { opacity: 0.7; }
-  .tab-btn.active { background: var(--c21LegacyGold); color: var(--white); border-color: var(--c21DarkGold); opacity: 1; box-shadow: 0 2px 8px rgba(196,146,42,0.35); }
+  .tab-btn.active { background: var(--gold); color: var(--white); border-color: var(--gold); opacity: 1; box-shadow: 0 2px 8px rgba(196,146,42,0.35); }
 
   .content { max-width: 820px; margin: 0 auto; padding: 2rem; }
   .county-panel { display: none; }
   .county-panel.active { display: block; }
 
-  .insight { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--c21LegacyGold); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-bottom: 1.75rem; font-size: 0.9rem; line-height: 1.7; color: var(--text); }
-  .insight strong { font-weight: 500; color: var(--coral); }
+  .insight { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-bottom: 1.75rem; font-size: 0.9rem; line-height: 1.7; color: var(--text); }
+  .insight strong { font-weight: 500; color: var(--gold); }
 
   .section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin: 1.75rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
 
@@ -73,21 +73,12 @@
   .chart-legend { display: flex; gap: 14px; margin-top: 8px; font-size: 0.7rem; color: var(--text-muted); }
   .legend-dot { width: 10px; height: 3px; border-radius: 2px; display: inline-block; margin-right: 4px; vertical-align: middle; }
 
-  .comp-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 1rem 0 1.75rem; }
-  .comp-title { font-size: 0.8rem; font-weight: 500; color: var(--text); margin-bottom: 2px; }
-  .comp-sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1rem; }
-  .comp-row { margin-bottom: 1rem; }
-  .comp-row-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
-  .comp-bar-bg { width: 100%; height: 8px; background: var(--surface); border-radius: 4px; }
-  .comp-bar-fill { height: 8px; border-radius: 4px; background: var(--c21LegacyGold); transition: width 0.6s ease; }
-  .comp-bar-fill.muted { background: var(--c21LegacyGold); opacity: 0.3; }
-  .comp-stat { font-size: 0.8rem; font-weight: 500; color: var(--text); margin-top: 5px; }
-  .comp-stat-muted { font-size: 0.78rem; color: var(--text-muted); margin-top: 5px; }
+  /* competition bar styles removed */
 
   .cta-block { background: var(--text); border-radius: 10px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
   .cta-text { font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.5; max-width: 500px; }
   .cta-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 4px; font-size: 1rem; }
-  .cta-btn { display: inline-block; background: var(--c21LegacyGold); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; white-space: nowrap; letter-spacing: 0.02em; border: none; cursor: pointer; }
+  .cta-btn { display: inline-block; background: var(--gold); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; white-space: nowrap; letter-spacing: 0.02em; border: none; cursor: pointer; }
 
   .site-footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; font-size: 0.7rem; color: var(--text-muted); line-height: 1.7; text-align: center; }
 
@@ -132,13 +123,8 @@
     </div>
     <div class="hero-divider"></div>
     <div class="hero-stat">
-      <span class="hero-stat-val">37.4%</span>
-      <span class="hero-stat-label">Pierce homes over asking</span>
-    </div>
-    <div class="hero-divider"></div>
-    <div class="hero-stat">
-      <span class="hero-stat-val">$765K</span>
-      <span class="hero-stat-label">Snohomish median sold price</span>
+      <span class="hero-stat-val">964</span>
+      <span class="hero-stat-label">Sold, region-wide</span>
     </div>
   </div>
 </div>
@@ -164,7 +150,7 @@
       <div class="metric-card"><div class="metric-label">Price per sq ft</div><div class="metric-value">$566</div><div class="metric-change down">↓ 3% vs last week</div></div>
     </div>
 
-    <div class="section-label">Going under contract</div>
+    <div class="section-label">Pendings (Going under contract)</div>
     <div class="metric-grid">
       <div class="metric-card"><div class="metric-label">New pendings</div><div class="metric-value">599</div><div class="metric-change up">↑ 11% vs last week</div></div>
       <div class="metric-card"><div class="metric-label">Median pending price</div><div class="metric-value">$850K</div><div class="metric-change flat">— flat vs last week</div></div>
@@ -182,7 +168,7 @@
     <div class="chart-grid">
       <div class="chart-card">
         <div class="chart-card-title">Listings &amp; pendings</div>
-        <div class="chart-card-sub">New supply vs. buyer demand</div>
+        <div class="chart-card-sub">New supply vs. buyer demand, 4 weeks</div>
         <div class="chart-wrap"><canvas id="king-inv" role="img" aria-label="King County listings and pendings over 4 weeks. Listings: 531, 628, 698, 973. Pendings: 307, 459, 541, 599."></canvas></div>
         <div class="chart-legend">
           <span><span class="legend-dot" style="background:#C4922A"></span>Listings</span>
@@ -191,33 +177,18 @@
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Median sold price</div>
-        <div class="chart-card-sub">Weekly closing price</div>
+        <div class="chart-card-sub">Weekly closing price, 4 weeks</div>
         <div class="chart-wrap"><canvas id="king-price" role="img" aria-label="King County median sold price: $855K, $840K, $880K, $834K"></canvas></div>
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Days on market</div>
-        <div class="chart-card-sub">Median for closed sales</div>
+        <div class="chart-card-sub">Median for closed sales, 4 weeks</div>
         <div class="chart-wrap"><canvas id="king-dom" role="img" aria-label="King County days on market: 8, 10, 8, 11"></canvas></div>
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Sold above asking price</div>
-        <div class="chart-card-sub">% of closed sales</div>
+        <div class="chart-card-sub">% of closed sales, 4 weeks</div>
         <div class="chart-wrap"><canvas id="king-overask" role="img" aria-label="King County over-ask %: 28.4, 26.0, 29.7, 25.3"></canvas></div>
-      </div>
-    </div>
-
-    <div class="comp-card">
-      <div class="comp-title">Competition: homes sold above asking price</div>
-      <div class="comp-sub">This week vs last week</div>
-      <div class="comp-row">
-        <div class="comp-row-label">This week (May 2)</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width:25.3%"></div></div>
-        <div class="comp-stat">25.3% — 136 of 537 homes sold over list</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-row-label">Last week (Apr 25)</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill muted" style="width:29.7%"></div></div>
-        <div class="comp-stat-muted">29.7% — 136 of 458 homes</div>
       </div>
     </div>
 
@@ -241,7 +212,7 @@
       <div class="metric-card"><div class="metric-label">Price per sq ft</div><div class="metric-value">$419</div><div class="metric-change down">↓ 3% vs last week</div></div>
     </div>
 
-    <div class="section-label">Going under contract</div>
+    <div class="section-label">Pendings (Going under contract)</div>
     <div class="metric-grid">
       <div class="metric-card"><div class="metric-label">New pendings</div><div class="metric-value">251</div><div class="metric-change flat">— flat vs last week</div></div>
       <div class="metric-card"><div class="metric-label">Median pending price</div><div class="metric-value">$682K</div><div class="metric-change flat">— flat vs last week</div></div>
@@ -259,7 +230,7 @@
     <div class="chart-grid">
       <div class="chart-card">
         <div class="chart-card-title">Listings &amp; pendings</div>
-        <div class="chart-card-sub">New supply vs. buyer demand</div>
+        <div class="chart-card-sub">New supply vs. buyer demand, 4 weeks</div>
         <div class="chart-wrap"><canvas id="sno-inv" role="img" aria-label="Snohomish listings and pendings. Listings: 163, 235, 216, 333. Pendings: 117, 210, 254, 251."></canvas></div>
         <div class="chart-legend">
           <span><span class="legend-dot" style="background:#C4922A"></span>Listings</span>
@@ -268,33 +239,18 @@
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Median sold price</div>
-        <div class="chart-card-sub">Weekly closing price</div>
+        <div class="chart-card-sub">Weekly closing price, 4 weeks</div>
         <div class="chart-wrap"><canvas id="sno-price" role="img" aria-label="Snohomish median sold price: $759K, $735K, $680K, $765K"></canvas></div>
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Days on market</div>
-        <div class="chart-card-sub">Median for closed sales</div>
+        <div class="chart-card-sub">Median for closed sales, 4 weeks</div>
         <div class="chart-wrap"><canvas id="sno-dom" role="img" aria-label="Snohomish days on market: 10, 7, 13, 10"></canvas></div>
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Sold above asking price</div>
-        <div class="chart-card-sub">% of closed sales</div>
+        <div class="chart-card-sub">% of closed sales, 4 weeks</div>
         <div class="chart-wrap"><canvas id="sno-overask" role="img" aria-label="Snohomish over-ask %: 28.3, 34.7, 29.6, 31.3"></canvas></div>
-      </div>
-    </div>
-
-    <div class="comp-card">
-      <div class="comp-title">Competition: homes sold above asking price</div>
-      <div class="comp-sub">This week vs last week</div>
-      <div class="comp-row">
-        <div class="comp-row-label">This week (May 2)</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width:31.3%"></div></div>
-        <div class="comp-stat">31.3% — 62 of 198 homes sold over list</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-row-label">Last week (Apr 25)</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill muted" style="width:29.6%"></div></div>
-        <div class="comp-stat-muted">29.6% — 50 of 169 homes</div>
       </div>
     </div>
 
@@ -318,7 +274,7 @@
       <div class="metric-card"><div class="metric-label">Price per sq ft</div><div class="metric-value">$333</div><div class="metric-change up">↑ 3% vs last week</div></div>
     </div>
 
-    <div class="section-label">Going under contract</div>
+    <div class="section-label">Pendings (Going under contract)</div>
     <div class="metric-grid">
       <div class="metric-card"><div class="metric-label">New pendings</div><div class="metric-value">289</div><div class="metric-change up">↑ 16% vs last week</div></div>
       <div class="metric-card"><div class="metric-label">Median pending price</div><div class="metric-value">$550K</div><div class="metric-change flat">— flat vs last week</div></div>
@@ -336,7 +292,7 @@
     <div class="chart-grid">
       <div class="chart-card">
         <div class="chart-card-title">Listings &amp; pendings</div>
-        <div class="chart-card-sub">New supply vs. buyer demand</div>
+        <div class="chart-card-sub">New supply vs. buyer demand, 4 weeks</div>
         <div class="chart-wrap"><canvas id="pierce-inv" role="img" aria-label="Pierce listings and pendings. Listings: 182, 232, 260, 341. Pendings: 188, 249, 250, 289."></canvas></div>
         <div class="chart-legend">
           <span><span class="legend-dot" style="background:#C4922A"></span>Listings</span>
@@ -345,33 +301,18 @@
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Median sold price</div>
-        <div class="chart-card-sub">Weekly closing price</div>
+        <div class="chart-card-sub">Weekly closing price, 4 weeks</div>
         <div class="chart-wrap"><canvas id="pierce-price" role="img" aria-label="Pierce median sold price: $563K, $575K, $581K, $590K"></canvas></div>
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Days on market</div>
-        <div class="chart-card-sub">Median for closed sales</div>
+        <div class="chart-card-sub">Median for closed sales, 4 weeks</div>
         <div class="chart-wrap"><canvas id="pierce-dom" role="img" aria-label="Pierce days on market: 10, 15, 10, 12"></canvas></div>
       </div>
       <div class="chart-card">
         <div class="chart-card-title">Sold above asking price</div>
-        <div class="chart-card-sub">% of closed sales</div>
+        <div class="chart-card-sub">% of closed sales, 4 weeks</div>
         <div class="chart-wrap"><canvas id="pierce-overask" role="img" aria-label="Pierce over-ask %: 42.4, 36.5, 44.2, 37.4"></canvas></div>
-      </div>
-    </div>
-
-    <div class="comp-card">
-      <div class="comp-title">Competition: homes sold above asking price</div>
-      <div class="comp-sub">This week vs last week</div>
-      <div class="comp-row">
-        <div class="comp-row-label">This week (May 2)</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width:37.4%"></div></div>
-        <div class="comp-stat">37.4% — 86 of 230 homes sold over list</div>
-      </div>
-      <div class="comp-row">
-        <div class="comp-row-label">Last week (Apr 25)</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill muted" style="width:44.2%"></div></div>
-        <div class="comp-stat-muted">44.2% — 92 of 208 homes</div>
       </div>
     </div>
 
