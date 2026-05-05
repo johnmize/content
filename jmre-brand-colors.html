@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>John Mize Real Estate — Brand Colors</title>
+<style>
+  :root {
+    --jmre-navy:  #1e2d40;
+    --jmre-gold:  #c9a84c;
+    --jmre-green: #2d5a3d;
+    --jmre-cream: #f7f4ee;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--jmre-cream);
+    font-family: Georgia, 'Times New Roman', serif;
+    min-height: 100vh;
+    padding: 60px 40px;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 12px;
+  }
+  .wordmark {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    color: var(--jmre-navy);
+    text-transform: uppercase;
+  }
+  .wordmark span {
+    color: var(--jmre-gold);
+  }
+  .doc-title {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--jmre-green);
+    text-transform: uppercase;
+  }
+
+  .rule {
+    width: 100%;
+    height: 1px;
+    background: var(--jmre-navy);
+    opacity: 0.15;
+    margin-bottom: 52px;
+  }
+
+  /* ── Swatches ── */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+    max-width: 900px;
+  }
+
+  .swatch-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .swatch-block {
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  /* Cream card gets a hairline so it reads against page bg */
+  .swatch-card.cream .swatch-block {
+    border: 1px solid rgba(30,45,64,0.12);
+  }
+
+  .swatch-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--jmre-navy);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .swatch-hex {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: var(--jmre-navy);
+    margin-bottom: 10px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .swatch-desc {
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--jmre-navy);
+    opacity: 0.6;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Pairings ── */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--jmre-green);
+    margin-bottom: 20px;
+  }
+
+  .pairings {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 900px;
+    margin-bottom: 60px;
+  }
+
+  .pair {
+    border-radius: 4px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .pair-label {
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .pair-example {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+  .pair-sub {
+    font-size: 8.5px;
+    letter-spacing: 0.10em;
+    opacity: 0.7;
+  }
+
+  /* ── C21 note ── */
+  .c21-note {
+    max-width: 900px;
+    border-left: 2px solid var(--jmre-gold);
+    padding: 14px 20px;
+    background: rgba(201,168,76,0.07);
+    border-radius: 0 4px 4px 0;
+  }
+  .c21-note p {
+    font-size: 10px;
+    line-height: 1.8;
+    color: var(--jmre-navy);
+    letter-spacing: 0.03em;
+  }
+  .c21-note strong {
+    color: var(--jmre-gold);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 60px;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(30,45,64,0.12);
+    padding-top: 20px;
+  }
+  .footer-text {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--jmre-navy);
+    opacity: 0.4;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="wordmark">John Mize <span>Real Estate</span></div>
+    <div class="doc-title">Brand Color Reference</div>
+  </div>
+  <div class="rule"></div>
+
+  <!-- ── Swatches ── -->
+  <div class="swatches">
+
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#1e2d40;"></div>
+      <div class="swatch-label">Dark Navy</div>
+      <div class="swatch-hex">#1e2d40</div>
+      <div class="swatch-desc">Primary text, wordmark, logo cardinal points, dark backgrounds, heavy headers.</div>
+    </div>
+
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#c9a84c;"></div>
+      <div class="swatch-label">Bridging Gold</div>
+      <div class="swatch-hex">#c9a84c</div>
+      <div class="swatch-desc">Accents, tagline, intercardinal points, CTA elements. Bridges to C21 Legacy Gold.</div>
+    </div>
+
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#2d5a3d;"></div>
+      <div class="swatch-label">Forest Green</div>
+      <div class="swatch-hex">#2d5a3d</div>
+      <div class="swatch-desc">Subtext, mountain silhouette, rule lines, nature accents, secondary surfaces.</div>
+    </div>
+
+    <div class="swatch-card cream">
+      <div class="swatch-block" style="background:#f7f4ee;"></div>
+      <div class="swatch-label">Warm Cream</div>
+      <div class="swatch-hex">#f7f4ee</div>
+      <div class="swatch-desc">Light-mode backgrounds, reversed text, card surfaces. Never substitute pure white.</div>
+    </div>
+
+  </div>
+
+  <!-- ── Pairings ── -->
+  <div class="section-label">Approved Color Pairings</div>
+  <div class="pairings">
+
+    <div class="pair" style="background:#1e2d40;">
+      <div class="pair-label" style="color:#f7f4ee;">Cream on Navy</div>
+      <div class="pair-example" style="color:#f7f4ee;">John Mize</div>
+      <div class="pair-sub" style="color:#f7f4ee;">Dark panels, headers</div>
+    </div>
+
+    <div class="pair" style="background:#1e2d40;">
+      <div class="pair-label" style="color:#c9a84c; opacity:0.7;">Gold on Navy</div>
+      <div class="pair-example" style="color:#c9a84c;">Real Estate</div>
+      <div class="pair-sub" style="color:#c9a84c; opacity:0.7;">Tagline, accents</div>
+    </div>
+
+    <div class="pair" style="background:#f7f4ee; border: 1px solid rgba(30,45,64,0.10);">
+      <div class="pair-label" style="color:#1e2d40;">Navy on Cream</div>
+      <div class="pair-example" style="color:#1e2d40;">John Mize</div>
+      <div class="pair-sub" style="color:#1e2d40; opacity:0.5;">Primary reading</div>
+    </div>
+
+    <div class="pair" style="background:#f7f4ee; border: 1px solid rgba(30,45,64,0.10);">
+      <div class="pair-label" style="color:#c9a84c;">Gold on Cream</div>
+      <div class="pair-example" style="color:#c9a84c;">Real Estate</div>
+      <div class="pair-sub" style="color:#c9a84c; opacity:0.7;">Tagline, accents</div>
+    </div>
+
+    <div class="pair" style="background:#2d5a3d;">
+      <div class="pair-label" style="color:#f7f4ee;">Cream on Green</div>
+      <div class="pair-example" style="color:#f7f4ee;">Real Estate</div>
+      <div class="pair-sub" style="color:#f7f4ee; opacity:0.7;">Reversed labels</div>
+    </div>
+
+    <div class="pair" style="background:#c9a84c;">
+      <div class="pair-label" style="color:#1e2d40;">Navy on Gold</div>
+      <div class="pair-example" style="color:#1e2d40;">Contact Me</div>
+      <div class="pair-sub" style="color:#1e2d40; opacity:0.6;">CTA buttons</div>
+    </div>
+
+    <div class="pair" style="background:#f7f4ee; border: 1px solid rgba(201,168,76,0.3); opacity:0.45;">
+      <div class="pair-label" style="color:#1e2d40;">✗ Avoid</div>
+      <div class="pair-example" style="color:#2d5a3d;">Green on Cream</div>
+      <div class="pair-sub" style="color:#1e2d40; opacity:0.5;">Low contrast for body text</div>
+    </div>
+
+    <div class="pair" style="background:#2d5a3d; opacity:0.45;">
+      <div class="pair-label" style="color:#f7f4ee;">✗ Avoid</div>
+      <div class="pair-example" style="color:#c9a84c;">Gold on Green</div>
+      <div class="pair-sub" style="color:#f7f4ee; opacity:0.6;">Insufficient contrast</div>
+    </div>
+
+  </div>
+
+  <!-- ── C21 note ── -->
+  <div class="c21-note">
+    <p><strong>C21 Co-branding:</strong> Bridging Gold <strong>#c9a84c</strong> is warm-compatible with Century 21 Legacy Gold <strong>#FFC72C</strong>. In co-branded materials either gold is acceptable. Use <strong>#c9a84c</strong> for all standalone JMRE materials — it reads as yours, not theirs.</p>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">John Mize Real Estate · Brand Colors · 2026</div>
+    <div class="footer-text">decision quality in real estate</div>
+  </div>
+
+</body>
+</html>
