@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMA — 21819 31st Ave E, Spanaway WA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --slate: #2d3561;
+    --gold: #c9a84c;
+    --gold-light: #f0d98e;
+    --cream: #faf8f3;
+    --warm-white: #ffffff;
+    --muted: #6b7280;
+    --border: #e8e2d5;
+    --green: #2e7d5e;
+    --red: #b94040;
+    --blue-light: #eef2ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    color: white;
+    padding: 40px 48px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+  .header-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  .header-badge {
+    position: absolute;
+    top: 40px; right: 48px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 8px 18px;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 32px 48px; }
+  .section { margin-top: 36px; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon { font-size: 16px; }
+
+  /* SUBJECT PROPERTY */
+  .subject-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .spec-item label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .spec-item .val {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .spec-item .note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  /* QUESTIONS BANNER */
+  .questions-banner {
+    background: #fff8e6;
+    border: 1px solid #f0d98e;
+    border-left: 4px solid var(--gold);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .questions-banner h4 {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .questions-banner ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .questions-banner li {
+    font-size: 13px;
+    color: #7a5c00;
+    padding-left: 16px;
+    position: relative;
+  }
+  .questions-banner li::before {
+    content: '?';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  /* COMP TABLE */
+  .comp-table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  thead tr {
+    background: var(--ink);
+    color: white;
+  }
+  thead th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr.subject-row { background: var(--blue-light); }
+  tbody tr:hover:not(.subject-row) { background: #f9f8f5; }
+  td { padding: 9px 12px; vertical-align: top; }
+  td.address { font-weight: 600; font-size: 12px; max-width: 180px; }
+  td.address .sub { font-weight: 400; color: var(--muted); font-size: 11px; }
+  .price-tag { font-weight: 700; font-size: 13px; color: var(--ink); }
+  .ppsf { color: var(--muted); font-size: 11px; }
+  .adj-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-weight: 600;
+    margin-left: 3px;
+  }
+  .adj-up { background: #dcfce7; color: #166534; }
+  .adj-dn { background: #fee2e2; color: #991b1b; }
+  .adj-neutral { background: #f3f4f6; color: var(--muted); }
+  .status-sold { color: var(--green); font-weight: 600; }
+  .status-active { color: #1d4ed8; font-weight: 600; }
+  .status-subject { color: var(--slate); font-weight: 700; }
+  .discard { opacity: 0.55; }
+
+  /* ADJUSTMENTS LEGEND */
+  .adj-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.7;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+  }
+  .adj-note strong { color: var(--ink); }
+
+  /* PRICE TIERS */
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .tier-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .tier-header {
+    padding: 16px 20px 12px;
+    color: white;
+  }
+  .tier-header.aspirational { background: var(--slate); }
+  .tier-header.market { background: var(--green); }
+  .tier-header.aggressive { background: #8b4513; }
+  .tier-eyebrow {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .tier-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .tier-body { padding: 16px 20px; }
+  .tier-price {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 2px;
+  }
+  .tier-ppsf {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .tier-desc {
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .tier-timeline {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .tier-timeline.asp { background: #e0e7ff; color: #3730a3; }
+  .tier-timeline.mkt { background: #dcfce7; color: #166534; }
+  .tier-timeline.agg { background: #fef3c7; color: #92400e; }
+
+  /* STRATEGY BOX */
+  .strategy-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+  }
+  .strategy-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    margin-bottom: 14px;
+    color: var(--slate);
+  }
+  .strategy-steps {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+  .strategy-steps::before {
+    content: '';
+    position: absolute;
+    top: 18px; left: 18px; right: 18px;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .step-circle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    margin: 0 auto 8px;
+    color: white;
+  }
+  .step-circle.c1 { background: var(--slate); }
+  .step-circle.c2 { background: var(--green); }
+  .step-circle.c3 { background: #c0392b; }
+  .step-label { font-size: 11px; font-weight: 600; color: var(--ink); }
+  .step-price { font-size: 13px; font-weight: 700; color: var(--ink); margin-top: 2px; }
+  .step-note { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .strategy-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #4b5563;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 24px 32px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .disclaimer {
+    font-size: 11px;
+    color: var(--muted);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-top: 20px;
+    line-height: 1.7;
+  }
+
+  @media print {
+    body { background: white; }
+    .header { -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Comparative Market Analysis</div>
+  <h1>21819 31st Ave E<br>Spanaway, WA 98387</h1>
+  <div class="header-sub">Pierce County · 5 Acres · Prepared May 2026 · Rev. 1 — seller details incorporated</div>
+  <div class="header-badge">Confidential</div>
+</div>
+
+<div class="container">
+
+  <!-- SUBJECT PROPERTY -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🏡</span> Subject Property</div>
+    <div class="subject-card">
+      <div class="spec-item"><label>Style / Type</label><span class="val">2-Story Single Family</span><span class="note">Site-built, frame construction</span></div>
+      <div class="spec-item"><label>Year Built</label><span class="val">2003</span><span class="note">~22 years old</span></div>
+      <div class="spec-item"><label>Living Area</label><span class="val">2,320 sqft</span></div>
+      <div class="spec-item"><label>Bedrooms / Baths</label><span class="val">4 bed / 2.5 bath</span></div>
+      <div class="spec-item"><label>Lot Size</label><span class="val">5.0 Acres</span><span class="note">Level; rural residential</span></div>
+      <div class="spec-item"><label>Garage</label><span class="val">2-Car Attached + Shop</span><span class="note">36×36 det. shop — pwr, insul, conc. floor (to verify)</span></div>
+      <div class="spec-item"><label>Sewer</label><span class="val">Septic — 1,150 gal concrete</span><span class="note">Last pumped 11/3/2020; status OK; 2-compartment</span></div>
+      <div class="spec-item"><label>Heating / Cooling</label><span class="val">Baseboard + Gas Fireplace</span><span class="note">⚠️ Permitted post-build gas FP — possible gas heat/HW; verify</span></div>
+      <div class="spec-item"><label>Condition (assumed)</label><span class="val">Original / Average</span><span class="note">2003 kitchen, baths, flooring — to verify on walkthrough</span></div>
+      <div class="spec-item"><label>Roof (assumed)</label><span class="val">Original composition</span><span class="note">~22 yrs; buyers may flag for credit/replacement</span></div>
+      <div class="spec-item"><label>Zestimate</label><span class="val">$781,500</span><span class="note">Range: $711K–$852K</span></div>
+    </div>
+
+    <div class="questions-banner">
+      <h4>📋 Property Details — Status as of May 26, 2026</h4>
+      <ul>
+        <li><strong>Interior condition:</strong> Assumed original 2003 (kitchen, baths, flooring) — <em>agent to verify on walkthrough today</em></li>
+        <li><strong>Shop (36×36):</strong> Assumed powered, insulated, concrete floor, standard 2-car door height — <em>confirm today; this materially affects value</em></li>
+        <li><strong>Gas fireplace:</strong> Permitted post-construction. <em>Verify if gas line also serves water heater or supplemental heat — if so, this partially offsets the baseboard-only negative</em></li>
+        <li><strong>Roof:</strong> Assumed original composition (~22 yrs old). Buyers and lenders may flag; budget for possible credit of $8K–$15K or replace pre-listing (~$12K–$18K for this sq footage)</li>
+        <li><strong>Septic:</strong> 1,150-gal concrete, 2-compartment — last pumped 11/3/2020, status OK per Drain-Pro report. Now 5.5 yrs since pump — <em>recommend pumping before listing; ~$350–$500; shows well to buyers</em></li>
+        <li><strong>Well:</strong> No documentation provided yet — <em>obtain well log and recent water test; VA/FHA buyers will require it</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- COMPARABLE SALES TABLE -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📊</span> Comparable Sales &amp; Adjusted Values</div>
+    <div class="comp-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Sale Date</th>
+            <th>Sale Price</th>
+            <th>$/sqft</th>
+            <th>Bed/Bath</th>
+            <th>SqFt</th>
+            <th>Lot</th>
+            <th>Built</th>
+            <th>Garage</th>
+            <th>Sewer</th>
+            <th>Notes / Adjustments</th>
+            <th>Adj. Value</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- SUBJECT -->
+          <tr class="subject-row">
+            <td class="address">21819 31st Ave E<br><span class="sub">SUBJECT</span></td>
+            <td><span class="status-subject">—</span></td>
+            <td>—</td>
+            <td class="price-tag">—</td>
+            <td>—</td>
+            <td>4 / 2.5</td>
+            <td>2,320</td>
+            <td>5.0 ac</td>
+            <td>2003</td>
+            <td>2-car att + 36×36 shop</td>
+            <td>Septic</td>
+            <td>No heat pump; baseboard only</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+
+          <!-- BEST COMPS — USED -->
+          <tr>
+            <td class="address">2911 283rd St Ct E<br><span class="sub">Spanaway</span></td>
+            <td><span class="status-sold">✓ Sold</span></td>
+            <td>Sep 2024</td>
+            <td class="price-tag">$743,500</td>
+            <td class="ppsf">$346</td>
+            <td>3 / 2</td>
+            <td>2,150</td>
+            <td>6.6 ac</td>
+            <td>2016</td>
+            <td>2-car att</td>
+            <td>Septic</td>
+            <td>
+              +1 bed <span class="adj-badge adj-up">+$15K</span>
+              +0.5 bath <span class="adj-badge adj-up">+$5K</span>
+              +170 sqft <span class="adj-badge adj-up">+$8K</span>
+              Newer by 13 yrs <span class="adj-badge adj-dn">−$15K</span>
+              Lot −1.6 ac <span class="adj-badge adj-dn">−$8K</span>
+              Shop <span class="adj-badge adj-up">+$40K</span>
+              No HP <span class="adj-badge adj-dn">−$8K</span>
+            </td>
+            <td class="price-tag">~$780K</td>
+            <td>⭐⭐⭐</td>
+          </tr>
+
+          <tr>
+            <td class="address">23009 59th Ave E<br><span class="sub">Puyallup/Spanaway</span></td>
+            <td><span class="status-sold">✓ Sold</span></td>
+            <td>Sep 2024</td>
+            <td class="price-tag">$705,000</td>
+            <td class="ppsf">$339</td>
+            <td>4 / 3</td>
+            <td>2,080</td>
+            <td>4.86 ac</td>
+            <td>2019</td>
+            <td>2-car att</td>
+            <td>Septic</td>
+            <td>
+              −0.5 bath <span class="adj-badge adj-dn">−$5K</span>
+              +240 sqft <span class="adj-badge adj-up">+$10K</span>
+              Newer 16 yrs <span class="adj-badge adj-dn">−$20K</span>
+              Lot +0.14 ac <span class="adj-badge adj-up">+$2K</span>
+              Shop <span class="adj-badge adj-up">+$40K</span>
+              No HP <span class="adj-badge adj-dn">−$8K</span>
+            </td>
+            <td class="price-tag">~$724K</td>
+            <td>⭐⭐⭐</td>
+          </tr>
+
+          <tr>
+            <td class="address">27615 36th Ave E<br><span class="sub">Spanaway</span></td>
+            <td><span class="status-sold">✓ Sold</span></td>
+            <td>Jun 2025</td>
+            <td class="price-tag">$688,000</td>
+            <td class="ppsf">$275</td>
+            <td>3 / 3</td>
+            <td>2,502</td>
+            <td>5.2 ac</td>
+            <td>1999</td>
+            <td>2-car att</td>
+            <td>Septic</td>
+            <td>
+              +1 bed <span class="adj-badge adj-up">+$15K</span>
+              −0.5 bath <span class="adj-badge adj-dn">−$5K</span>
+              −182 sqft <span class="adj-badge adj-dn">−$7K</span>
+              Older 4 yrs <span class="adj-badge adj-up">+$5K</span>
+              Lot ~same <span class="adj-badge adj-neutral">—</span>
+              Shop <span class="adj-badge adj-up">+$40K</span>
+              No HP: both <span class="adj-badge adj-neutral">—</span>
+              Most recent sale <span class="adj-badge adj-up">+$0</span>
+              Price cuts suggest soft demand
+            </td>
+            <td class="price-tag">~$736K</td>
+            <td>⭐⭐⭐</td>
+          </tr>
+
+          <tr>
+            <td class="address">27414 30th Ave E<br><span class="sub">Spanaway</span></td>
+            <td><span class="status-sold">✓ Sold</span></td>
+            <td>Aug 2024</td>
+            <td class="price-tag">$915,000</td>
+            <td class="ppsf">$415</td>
+            <td>3 / 3</td>
+            <td>2,205</td>
+            <td>10.3 ac</td>
+            <td>1993</td>
+            <td>10-space att/det</td>
+            <td>Septic / Well</td>
+            <td>
+              +1 bed <span class="adj-badge adj-up">+$15K</span>
+              −0.5 bath <span class="adj-badge adj-dn">−$5K</span>
+              +115 sqft <span class="adj-badge adj-up">+$5K</span>
+              Older 10 yrs <span class="adj-badge adj-up">+$12K</span>
+              Lot +5.3 ac <span class="adj-badge adj-dn">−$25K</span>
+              Horse arena/barn <span class="adj-badge adj-dn">−$30K</span>
+              Much larger garage/parking
+              <span class="adj-badge adj-dn">−$20K</span>
+              Luxury finishes <span class="adj-badge adj-dn">−$35K</span>
+            </td>
+            <td class="price-tag">~$832K</td>
+            <td>⭐⭐ (luxury outlier)</td>
+          </tr>
+
+          <!-- ACTIVE LISTINGS -->
+          <tr>
+            <td class="address">21701 31st Ave E<br><span class="sub">Spanaway — same street!</span></td>
+            <td><span class="status-active">⬤ Active</span></td>
+            <td>Listed 3/27/26<br>61 days on market</td>
+            <td class="price-tag">$750,000<br><span class="ppsf">(cut from $840K)</span></td>
+            <td class="ppsf">$324</td>
+            <td>4 / 3</td>
+            <td>2,318</td>
+            <td>5.0 ac</td>
+            <td>2007</td>
+            <td>2-car att</td>
+            <td>Septic</td>
+            <td>
+              Very similar — same street, same lot size, similar sqft. No shop.
+              −0.5 bath <span class="adj-badge adj-dn">−$5K</span>
+              4 yrs newer <span class="adj-badge adj-dn">−$5K</span>
+              Shop: subject has one <span class="adj-badge adj-up">+$40K</span>
+              Already cut $90K. Currently no offers.
+            </td>
+            <td class="price-tag">~$780K<br><span class="ppsf">comp adjusted up for shop</span></td>
+            <td>⭐⭐⭐ (key competition)</td>
+          </tr>
+
+          <tr>
+            <td class="address">4716 266th St E<br><span class="sub">Spanaway</span></td>
+            <td><span class="status-active">⬤ Active</span></td>
+            <td>Listed 5/8/26<br>18 days</td>
+            <td class="price-tag">$850,000</td>
+            <td class="ppsf">$337</td>
+            <td>3 / 3</td>
+            <td>2,520</td>
+            <td>4.8 ac</td>
+            <td>1992</td>
+            <td>4-car att</td>
+            <td>Septic</td>
+            <td>
+              Equestrian property w/ barn &amp; arena (niche market).
+              +1 bed <span class="adj-badge adj-up">+$15K</span>
+              −0.5 bath <span class="adj-badge adj-dn">−$5K</span>
+              +200 sqft <span class="adj-badge adj-up">+$8K</span>
+              Older 11 yrs <span class="adj-badge adj-up">+$13K</span>
+              +2 garage <span class="adj-badge adj-dn">−$20K</span>
+              Barn/arena premium <span class="adj-badge adj-dn">−$30K</span>
+            </td>
+            <td class="price-tag">~$831K</td>
+            <td>⭐⭐ (equestrian niche)</td>
+          </tr>
+
+          <!-- WEAKER / EXCLUDED COMPS -->
+          <tr class="discard">
+            <td class="address">10707 212th St E<br><span class="sub">Graham — ⚠️ Used cautiously</span></td>
+            <td><span class="status-sold">✓ Sold</span></td>
+            <td>Jul 2025</td>
+            <td class="price-tag">$975,000</td>
+            <td class="ppsf">$387</td>
+            <td>4 / 3</td>
+            <td>2,519</td>
+            <td>9.88 ac</td>
+            <td>2024</td>
+            <td>3-car att</td>
+            <td>Septic</td>
+            <td>New construction; Graham location; nearly 10 acres. Too many differences. Not used in value calc.</td>
+            <td>—</td>
+            <td>Excluded</td>
+          </tr>
+
+          <tr class="discard">
+            <td class="address">29010 37th Ave E<br><span class="sub">Spanaway — ⚠️ MFH</span></td>
+            <td><span class="status-sold">✓ Sold</span></td>
+            <td>Aug 2025</td>
+            <td class="price-tag">$600,000</td>
+            <td class="ppsf">$263</td>
+            <td>3 / 2</td>
+            <td>2,278</td>
+            <td>5.4 ac</td>
+            <td>2001</td>
+            <td>2-car det</td>
+            <td>Septic</td>
+            <td>Manufactured home — significantly discounted vs. site-built. Not used; different property class.</td>
+            <td>—</td>
+            <td>Excluded</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="adj-note">
+      <strong>Adjustment assumptions used:</strong>
+      Bedroom: ±$15,000 | Bath (full): ±$10,000 | Half bath: ±$5,000 | SqFt: ±$40/sf above/below 2,300 baseline |
+      Lot (per acre over/under 5 ac): ±$5,000/ac | Age: ±$1,500/yr | Detached shop (36×36, approx 1,296 sf, power): +$35,000–$45,000 (estimated midpoint $40K) |
+      Heat pump (vs. baseboard): −$8,000 to subject vs. comps with HP |
+      Luxury/equestrian features: case-by-case.
+      <br><br>
+      <strong>⚠️ Shop value note:</strong> The 36×36 detached shop is a meaningful but hard-to-quantify asset. Value depends heavily on condition, power service, floor, insulation, and door height. Range could be $25K–$60K in adjusted value. Confirm these details with seller before finalizing.
+    </div>
+  </div>
+
+  <!-- PRICE TIERS -->
+  <div class="section">
+    <div class="section-title"><span class="icon">💰</span> Three-Tier Pricing Strategy</div>
+    <div class="tiers-grid">
+      <div class="tier-card">
+        <div class="tier-header aspirational">
+          <div class="tier-eyebrow">Tier 1 · Aspirational</div>
+          <div class="tier-name">Maximum Value</div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-price">$829,900</div>
+          <div class="tier-ppsf">~$358/sqft</div>
+          <div class="tier-desc">
+            Positioned at the high end of the adjusted range, above the 21701 31st Ave E competitor, leaning on the shop as a key differentiator. Attracts buyers who specifically want usable shop/workspace and are willing to pay for it. Requires excellent presentation, strong photography, and a well-condition home interior.
+          </div>
+          <span class="tier-timeline asp">⏱ Expect 4–10 weeks; may require reductions</span>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-header market">
+          <div class="tier-eyebrow">Tier 2 · Market Entry</div>
+          <div class="tier-name">Balanced Position</div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-price">$779,900</div>
+          <div class="tier-ppsf">~$336/sqft</div>
+          <div class="tier-desc">
+            Directly competitive against 21701 31st Ave E (same street, no shop, listed at $750K after cuts). The shop justifies a ~$30K premium over that neighbor. Aligned with adjusted sold comps. Good positioning to generate serious buyer attention within 2–4 weeks.
+          </div>
+          <span class="tier-timeline mkt">⏱ Typical market response: 2–4 weeks</span>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-header aggressive">
+          <div class="tier-eyebrow">Tier 3 · Aggressive</div>
+          <div class="tier-name">Quick Sale</div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-price">$739,900</div>
+          <div class="tier-ppsf">~$319/sqft</div>
+          <div class="tier-desc">
+            Below the active competition and near the lower adjusted sale comps. Creates urgency, maximizes early showings, and typically produces multiple offers. Best choice if seller needs to move on a tight timeline or if interior condition is below average.
+          </div>
+          <span class="tier-timeline agg">⏱ Strong probability of offer within 7–14 days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING STRATEGY -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🗺️</span> Recommended Seller Strategy</div>
+    <div class="strategy-box">
+      <h4>The "Get Both" Cascading Approach — For Sellers Who Want Max Price &amp; Don't Want to Sit Forever</h4>
+
+      <div class="strategy-steps">
+        <div class="step">
+          <div class="step-circle c1">1</div>
+          <div class="step-label">List at Aspirational</div>
+          <div class="step-price">$829,900</div>
+          <div class="step-note">Weeks 1–2 · Test the top</div>
+        </div>
+        <div class="step">
+          <div class="step-circle c2">2</div>
+          <div class="step-label">Reduce to Market</div>
+          <div class="step-price">$779,900</div>
+          <div class="step-note">Week 3–4 · If no offers</div>
+        </div>
+        <div class="step">
+          <div class="step-circle c3">3</div>
+          <div class="step-label">Drop to Aggressive</div>
+          <div class="step-price">$739,900</div>
+          <div class="step-note">Week 5–6 · Force action</div>
+        </div>
+      </div>
+
+      <div class="strategy-note">
+        <strong>How to explain this to sellers:</strong> "Think of the first two weeks as a free test of the market's ceiling. If a motivated buyer is out there, they'll show up. If we get no showings or no offers by Day 14, we haven't wasted much time — we just drop to the price that will actually sell it. Most sellers don't realize that a home that sits for 45 days at the wrong price ends up netting less than one that was priced right from day two."
+        <br><br>
+        <strong>Key competition to monitor:</strong> 21701 31st Ave E (same street, no shop, currently $750K, 61 days on market with no offers and two price cuts). Your shop is worth $30K–$40K to the right buyer, but you cannot be priced so high above them that buyers ignore you. If that neighbor drops to $720K, reassess immediately.
+        <br><br>
+        <strong>Condition caveat:</strong> Figures assume average/original 2003 interior condition. A 22-year-old home with original kitchen and baths will be perceived as dated by many buyers — this is already baked into the tier pricing. If the walkthrough reveals meaningful updates (flooring, counters, appliances), the aspirational tier gains credibility. If the home shows hard wear, trim each tier by an additional $10K–$20K.
+        <br><br>
+        <strong>Roof note:</strong> An original 2003 composition roof (~22 years) will come up in inspection and may trigger a lender flag on FHA/VA loans (typically flagged at 20–25 years). Consider either (a) replacing pre-listing to remove the objection entirely, or (b) pricing with a buyer credit built in. A new roof is a strong marketing headline on a 5-acre rural property.
+        <br><br>
+        <strong>Septic note:</strong> Recommend pumping before listing. The 11/2020 pump report is professional documentation that buyers and their agents will appreciate — but at 5.5 years out, a fresh pump + new report eliminates a common buyer concern and costs very little relative to deal certainty.
+        <br><br>
+        <strong>Gas fireplace / heating:</strong> If the permitted gas fireplace also brought a gas service line that supplies the water heater or any supplemental heat, that meaningfully reduces the baseboard-only stigma. Confirm and market it explicitly if so.
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> This Comparative Market Analysis (CMA) is prepared for informational and discussion purposes only. It is not a licensed appraisal. Values are estimates based on available MLS/public data and are subject to change based on property condition, market shifts, and information not yet confirmed with the seller. Final pricing decisions should be made in consultation with a licensed Washington State real estate professional. All comparable sales data sourced from Zillow/NWMLS public records as of May 2026.
+  </div>
+
+</div>
+
+<div class="footer">
+  CMA prepared May 26, 2026 · 21819 31st Ave E, Spanaway WA 98387 · Pierce County
+</div>
+
+</body>
+</html>
