@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puget Sound Weekly Housing Report — June 6, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --gold: #C4922A;
+    --green: #1D9E75;
+    --blue: #2C6FAC;
+    --coral: #C85A30;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --bg: #FAFAF8;
+    --surface: #F2F0EB;
+    --border: rgba(0,0,0,0.08);
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  .site-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+  .brand { display: flex; flex-direction: column; }
+  .brand-name { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--text); }
+  .brand-sub { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .report-meta { text-align: right; }
+  .report-meta-title { font-size: 0.78rem; font-weight: 500; color: var(--gold); letter-spacing: 0.05em; text-transform: uppercase; }
+  .report-meta-date { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+  .hero-strip { background: var(--text); color: var(--white); padding: 1rem 2rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+  .hero-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5); flex-shrink: 0; }
+  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .hero-stat { display: flex; flex-direction: column; }
+  .hero-stat-val { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--white); line-height: 1; }
+  .hero-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .hero-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.15); }
+
+  .tab-wrapper { background: var(--white); border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; position: sticky; top: 0; z-index: 10; }
+  .tab-bar { display: flex; gap: 10px; }
+  .tab-btn { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.55rem 1.3rem; cursor: pointer; border: 1.5px solid transparent; border-radius: 100px; background: var(--surface); color: var(--text-muted); opacity: 0.45; transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; letter-spacing: 0.01em; }
+  .tab-btn:hover:not(.active) { opacity: 0.7; }
+  .tab-btn.active { background: var(--gold); color: var(--white); border-color: var(--gold); opacity: 1; box-shadow: 0 2px 8px rgba(196,146,42,0.35); }
+
+  .content { max-width: 820px; margin: 0 auto; padding: 2rem; }
+  .county-panel { display: none; }
+  .county-panel.active { display: block; }
+
+  .insight { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-bottom: 1.75rem; font-size: 0.9rem; line-height: 1.7; color: var(--text); }
+  .insight strong { font-weight: 500; color: var(--gold); }
+
+  .section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin: 1.75rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+
+  .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 0.5rem; }
+  .metric-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; }
+  .metric-label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+  .metric-value { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--text); line-height: 1.1; }
+  .metric-change { font-size: 0.72rem; margin-top: 0.35rem; }
+  .up { color: var(--green); }
+  .down { color: var(--coral); }
+  .flat { color: var(--text-muted); }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 1rem 0; }
+  .chart-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.1rem 0.9rem; }
+  .chart-card-title { font-size: 0.8rem; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .chart-card-sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+  .chart-wrap { position: relative; height: 155px; }
+  .chart-legend { display: flex; gap: 14px; margin-top: 8px; font-size: 0.7rem; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 3px; border-radius: 2px; display: inline-block; margin-right: 4px; vertical-align: middle; }
+
+  .cta-block { background: var(--text); border-radius: 10px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .cta-text { font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.5; max-width: 500px; }
+  .cta-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 4px; font-size: 1rem; }
+  .cta-btn { display: inline-block; background: var(--gold); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.65rem 1.25rem; border-radius: 6px; text-decoration: none; white-space: nowrap; letter-spacing: 0.02em; border: none; cursor: pointer; }
+
+  .site-footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; font-size: 0.7rem; color: var(--text-muted); line-height: 1.7; text-align: center; }
+
+  @media (max-width: 600px) {
+    .site-header { padding: 1rem; }
+    .hero-strip { padding: 0.9rem 1rem; gap: 1rem; }
+    .hero-stats { gap: 1rem; }
+    .hero-divider { display: none; }
+    .tab-wrapper { padding: 0.6rem 0.75rem; }
+    .tab-btn { padding: 0.5rem 0.9rem; font-size: 0.78rem; }
+    .content { padding: 1.25rem 1rem; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .chart-grid { grid-template-columns: 1fr; }
+    .cta-block { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-name">John Mize Real Estate</div>
+    <div class="brand-sub">CENTURY 21 Real Estate Center</div>
+  </div>
+  <div class="report-meta">
+    <div class="report-meta-title">Puget Sound Housing Report</div>
+    <div class="report-meta-date">Week ending June 6, 2026</div>
+  </div>
+</header>
+
+<div class="hero-strip">
+  <div class="hero-label">This week at a glance</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-val">1,645</span>
+      <span class="hero-stat-label">New listings, region-wide</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">1,089</span>
+      <span class="hero-stat-label">New pendings, region-wide</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">797</span>
+      <span class="hero-stat-label">Sold, region-wide</span>
+    </div>
+  </div>
+</div>
+
+<div class="tab-wrapper">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showCounty('king',this)">King County</button>
+    <button class="tab-btn" onclick="showCounty('sno',this)">Snohomish County</button>
+    <button class="tab-btn" onclick="showCounty('pierce',this)">Pierce County</button>
+  </div>
+</div>
+
+<main class="content">
+
+  <!-- KING -->
+  <div id="king" class="county-panel active">
+    <div class="insight"><strong>What to know this week —</strong> King County buyers came back strong after Memorial Day — pendings jumped 13% to 563, the highest since May 2. Median sold price hit $914K, its highest in eight weeks. Closed sales are down, but that's closing-lag from the holiday week, not a demand signal. The underlying trend is solid.</div>
+
+    <div class="section-label">New listings</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">New listings</div><div class="metric-value">968</div><div class="metric-change flat">— flat vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median list price</div><div class="metric-value">$890K</div><div class="metric-change down">↓ 9% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Price per sq ft</div><div class="metric-value">$540</div><div class="metric-change flat">— flat vs last week</div></div>
+    </div>
+
+    <div class="section-label">Pendings (Going under contract)</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">New pendings</div><div class="metric-value">563</div><div class="metric-change up">↑ 13% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median pending price</div><div class="metric-value">$900K</div><div class="metric-change flat">— flat vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Days to pending</div><div class="metric-value">15 days</div><div class="metric-change flat">— flat vs last week</div></div>
+    </div>
+
+    <div class="section-label">Closed sales</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Closed sales</div><div class="metric-value">452</div><div class="metric-change down">↓ 15% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median sale price</div><div class="metric-value">$914K</div><div class="metric-change up">↑ 3% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median days on market</div><div class="metric-value">11 days</div><div class="metric-change up">↑ 1 day faster</div></div>
+    </div>
+
+    <div class="section-label">8-week trends</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card-title">Listings &amp; pendings</div>
+        <div class="chart-card-sub">New supply vs. buyer demand, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="king-inv"></canvas></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#C4922A"></span>Listings</span>
+          <span><span class="legend-dot" style="background:#1D9E75"></span>Pendings</span>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Median sold price</div>
+        <div class="chart-card-sub">Weekly closing price, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="king-price"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Days on market</div>
+        <div class="chart-card-sub">Median for closed sales, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="king-dom"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Sold above asking price</div>
+        <div class="chart-card-sub">% of closed sales, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="king-overask"></canvas></div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <div class="cta-text">
+        <strong>King County just hit its highest median sold price in eight weeks — $914K.</strong>
+        Buyers returned strong after Memorial Day and prices responded. If you've been waiting for a quieter moment to list or make an offer, the data suggests the market has other plans.
+      </div>
+      <a class="cta-btn" href="mailto:john@johnmizerealestate.com?subject=King County Market Question">Let's talk →</a>
+    </div>
+  </div>
+
+  <!-- SNOHOMISH -->
+  <div id="sno" class="county-panel">
+    <div class="insight"><strong>What to know this week —</strong> Snohomish is quietly stabilizing. Inventory eased slightly, pendings ticked up 9%, and homes are selling faster at 9 days on market. Sold price held at $730K — not exciting, but consistent. After eight weeks of volatility, this looks like the market finding its footing.</div>
+
+    <div class="section-label">New listings</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">New listings</div><div class="metric-value">317</div><div class="metric-change down">↓ 8% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median list price</div><div class="metric-value">$769K</div><div class="metric-change down">↓ 10% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Price per sq ft</div><div class="metric-value">$428</div><div class="metric-change flat">— flat vs last week</div></div>
+    </div>
+
+    <div class="section-label">Pendings (Going under contract)</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">New pendings</div><div class="metric-value">250</div><div class="metric-change up">↑ 9% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median pending price</div><div class="metric-value">$699K</div><div class="metric-change flat">— flat vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Days to pending</div><div class="metric-value">16 days</div><div class="metric-change flat">— flat vs last week</div></div>
+    </div>
+
+    <div class="section-label">Closed sales</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Closed sales</div><div class="metric-value">147</div><div class="metric-change down">↓ 45% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median sale price</div><div class="metric-value">$730K</div><div class="metric-change up">↑ 1% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median days on market</div><div class="metric-value">9 days</div><div class="metric-change up">↑ 1 day faster</div></div>
+    </div>
+
+    <div class="section-label">8-week trends</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card-title">Listings &amp; pendings</div>
+        <div class="chart-card-sub">New supply vs. buyer demand, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="sno-inv"></canvas></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#C4922A"></span>Listings</span>
+          <span><span class="legend-dot" style="background:#1D9E75"></span>Pendings</span>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Median sold price</div>
+        <div class="chart-card-sub">Weekly closing price, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="sno-price"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Days on market</div>
+        <div class="chart-card-sub">Median for closed sales, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="sno-dom"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Sold above asking price</div>
+        <div class="chart-card-sub">% of closed sales, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="sno-overask"></canvas></div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <div class="cta-text">
+        <strong>Snohomish may finally be settling into a steadier pattern after eight volatile weeks.</strong>
+        Faster sales, stable prices, and demand holding. If you've been hesitating because the market felt unpredictable, this week's data is worth a closer look.
+      </div>
+      <a class="cta-btn" href="mailto:john@johnmizerealestate.com?subject=Snohomish Market Question">Let's talk →</a>
+    </div>
+  </div>
+
+  <!-- PIERCE -->
+  <div id="pierce" class="county-panel">
+    <div class="insight"><strong>What to know this week —</strong> Pierce County's over-ask rate snapped back to 38% after last week's 32% dip — confirming that Memorial Day was the anomaly, not a market shift. Median sold price hit $600K, a new 8-week high. The most affordable market in the region is also consistently among the most competitive.</div>
+
+    <div class="section-label">New listings</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">New listings</div><div class="metric-value">360</div><div class="metric-change up">↑ 12% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median list price</div><div class="metric-value">$645K</div><div class="metric-change up">↑ 4% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Price per sq ft</div><div class="metric-value">$331</div><div class="metric-change flat">— flat vs last week</div></div>
+    </div>
+
+    <div class="section-label">Pendings (Going under contract)</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">New pendings</div><div class="metric-value">276</div><div class="metric-change up">↑ 8% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median pending price</div><div class="metric-value">$575K</div><div class="metric-change up">↑ 3% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Days to pending</div><div class="metric-value">14 days</div><div class="metric-change up">↑ 1 day faster</div></div>
+    </div>
+
+    <div class="section-label">Closed sales</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Closed sales</div><div class="metric-value">198</div><div class="metric-change down">↓ 20% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median sale price</div><div class="metric-value">$600K</div><div class="metric-change up">↑ 3% vs last week</div></div>
+      <div class="metric-card"><div class="metric-label">Median days on market</div><div class="metric-value">12 days</div><div class="metric-change up">↑ 2 days faster</div></div>
+    </div>
+
+    <div class="section-label">8-week trends</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card-title">Listings &amp; pendings</div>
+        <div class="chart-card-sub">New supply vs. buyer demand, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="pierce-inv"></canvas></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#C4922A"></span>Listings</span>
+          <span><span class="legend-dot" style="background:#1D9E75"></span>Pendings</span>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Median sold price</div>
+        <div class="chart-card-sub">Weekly closing price, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="pierce-price"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Days on market</div>
+        <div class="chart-card-sub">Median for closed sales, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="pierce-dom"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Sold above asking price</div>
+        <div class="chart-card-sub">% of closed sales, 8 weeks</div>
+        <div class="chart-wrap"><canvas id="pierce-overask"></canvas></div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <div class="cta-text">
+        <strong>Pierce County: $600K median sold price — a new 8-week high — and competition is back.</strong>
+        Last week's dip in over-ask activity was a holiday blip. If you're buying in Pierce, the competitive dynamics haven't changed. Let's build a strategy that works.
+      </div>
+      <a class="cta-btn" href="mailto:john@johnmizerealestate.com?subject=Pierce County Market Question">Let's talk →</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  Data source: NWMLS &nbsp;·&nbsp; Week ending June 6, 2026 &nbsp;·&nbsp; Prepared by John Mize, CENTURY 21 Real Estate Center<br>
+  Statistics are based on MLS data and may not reflect all market activity.  Not intended as legal or financial advice.<br>
+  &copy; 2026 John Mize Real Estate.  All rights reserved.
+</footer>
+
+<script>
+const WEEKS = ['Apr 18','Apr 25','May 2','May 9','May 16','May 23','May 30','Jun 6'];
+const GOLD='#C4922A', GREEN='#1D9E75', BLUE='#2C6FAC', CORAL='#C85A30';
+const gridC='rgba(0,0,0,0.06)', tickC='rgba(0,0,0,0.4)';
+
+function opts(yFmt, yMin, yMax) {
+  return {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c => yFmt ? yFmt(c.parsed.y) : c.parsed.y } } },
+    scales:{
+      x:{ ticks:{color:tickC, font:{size:9}, maxRotation:45}, grid:{color:gridC} },
+      y:{ ticks:{color:tickC, font:{size:10}, callback:yFmt||undefined}, grid:{color:gridC}, suggestedMin:yMin, suggestedMax:yMax }
+    }
+  };
+}
+function line(labels, sets) {
+  return { labels, datasets: sets.map(d=>({
+    label:d.l, data:d.d, borderColor:d.c, backgroundColor:d.c+'15',
+    borderWidth:2, pointRadius:3, pointBackgroundColor:d.c,
+    tension:0.3, fill:!!d.fill
+  }))};
+}
+function bar(labels, data, color) {
+  return { labels, datasets:[{ data, backgroundColor:color+'cc', borderColor:color, borderWidth:1, borderRadius:3 }]};
+}
+const pct=v=>v.toFixed(1)+'%', d=v=>v+'d', kk=v=>'$'+Math.round(v)+'K';
+
+// King
+new Chart(document.getElementById('king-inv'),{type:'line',data:line(WEEKS,[
+  {l:'Listings',d:[628,698,1030,597,808,698,955,968],c:GOLD},
+  {l:'Pendings',d:[459,541,610,340,476,578,497,563],c:GREEN}
+]),options:opts(null,200,1100)});
+new Chart(document.getElementById('king-price'),{type:'line',data:line(WEEKS,[
+  {l:'Price',d:[840,880,830,832,900,888,890,914],c:GOLD,fill:true}
+]),options:opts(kk,800,940)});
+new Chart(document.getElementById('king-dom'),{type:'bar',data:bar(WEEKS,[10,8,11,10,8,8,12,11],BLUE),options:opts(d,0,20)});
+new Chart(document.getElementById('king-overask'),{type:'bar',data:bar(WEEKS,[26.0,29.7,25.3,26.3,28.1,29.7,26.7,29.6],CORAL),options:opts(pct,0,50)});
+
+// Snohomish
+new Chart(document.getElementById('sno-inv'),{type:'line',data:line(WEEKS,[
+  {l:'Listings',d:[235,216,344,196,258,242,345,317],c:GOLD},
+  {l:'Pendings',d:[210,254,253,156,192,261,230,250],c:GREEN}
+]),options:opts(null,80,380)});
+new Chart(document.getElementById('sno-price'),{type:'line',data:line(WEEKS,[
+  {l:'Price',d:[735,680,765,715,700,787,721,730],c:GOLD,fill:true}
+]),options:opts(kk,640,820)});
+new Chart(document.getElementById('sno-dom'),{type:'bar',data:bar(WEEKS,[7,13,10,13,7,13,10,9],BLUE),options:opts(d,0,20)});
+new Chart(document.getElementById('sno-overask'),{type:'bar',data:bar(WEEKS,[34.7,29.6,31.3,31.5,26.6,27.5,25.7,26.5],CORAL),options:opts(pct,0,50)});
+
+// Pierce
+new Chart(document.getElementById('pierce-inv'),{type:'line',data:line(WEEKS,[
+  {l:'Listings',d:[232,260,348,231,277,235,322,360],c:GOLD},
+  {l:'Pendings',d:[249,250,291,204,237,272,256,276],c:GREEN}
+]),options:opts(null,100,380)});
+new Chart(document.getElementById('pierce-price'),{type:'line',data:line(WEEKS,[
+  {l:'Price',d:[575,581,590,562,580,560,582,600],c:GOLD,fill:true}
+]),options:opts(kk,530,630)});
+new Chart(document.getElementById('pierce-dom'),{type:'bar',data:bar(WEEKS,[15,10,12,10,11,9,14,12],BLUE),options:opts(d,0,20)});
+new Chart(document.getElementById('pierce-overask'),{type:'bar',data:bar(WEEKS,[36.5,44.2,37.4,37.7,37.4,43.1,31.6,37.9],CORAL),options:opts(pct,0,55)});
+
+function showCounty(id, btn) {
+  document.querySelectorAll('.county-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
