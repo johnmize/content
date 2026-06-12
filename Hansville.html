@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>38104 Hillview Lane NE — Property Analysis</title>
+<style>
+  :root {
+    --navy:  #1e2d40;
+    --gold:  #c9a84c;
+    --green: #2d5a3d;
+    --cream: #f7f4ee;
+    --ink:   #1e2d40;
+    --ink-soft: #4a5f70;
+    --line:  #dde4e0;
+    --flag:       #8c3326;
+    --flag-light: #faecea;
+    --amber:      #a9701f;
+    --amber-light:#fbf3e6;
+    --good:       #2d5a3d;
+    --good-light: #eaf2ec;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    padding: 32px 48px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-left {}
+  .wordmark {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .wordmark span { color: var(--gold); }
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 12px;
+    color: #8fa8bb;
+    line-height: 1.6;
+  }
+  .header-right strong { color: var(--cream); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 0 48px 40px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .hero-address {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.2;
+    padding-top: 8px;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 3px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: var(--cream);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .chip strong { color: var(--gold); }
+
+  /* ── MAIN ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* ── FINDING BOX ── */
+  .finding {
+    background: var(--flag-light);
+    border: 1px solid #ddb8b2;
+    border-left: 5px solid var(--flag);
+    border-radius: 3px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .finding-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--flag);
+    margin-bottom: 8px;
+  }
+  .finding h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--flag);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .finding p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #5a2820;
+    margin-bottom: 8px;
+  }
+  .finding p:last-child { margin-bottom: 0; }
+
+  /* ── SECTION HEADERS ── */
+  h2.section {
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    margin: 40px 0 18px;
+  }
+  h2.section:first-of-type { margin-top: 0; }
+
+  /* ── PROSE ── */
+  p { margin-bottom: 14px; font-size: 15.5px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── STAT ROW ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 18px 0 24px;
+  }
+  .stat {
+    background: var(--white);
+    padding: 14px 16px;
+  }
+  .stat-k {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .stat-v {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .stat-v small {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ── VALUE BOX ── */
+  .value-box {
+    background: var(--navy);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 18px 0 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .value-num {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--cream);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .value-range {
+    font-size: 13px;
+    color: var(--gold);
+    line-height: 1.5;
+  }
+  .value-range span { display: block; color: #8fa8bb; font-size: 12px; margin-top: 3px; }
+
+  /* ── OFFER TIERS ── */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 18px 0 8px;
+  }
+  .tier {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px 16px 16px;
+    background: var(--white);
+  }
+  .tier.mid { border: 2px solid var(--navy); }
+  .tier-lbl {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .tier.mid .tier-lbl { color: var(--navy); }
+  .tier-price {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .tier-band {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .tier ul {
+    padding-left: 14px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .tier li { margin-bottom: 5px; line-height: 1.45; }
+
+  /* ── GOOD / VERIFY PILLS ── */
+  .pill {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 5px;
+    vertical-align: 1px;
+  }
+  .pill.good    { background: var(--good-light);  color: var(--good); }
+  .pill.caution { background: var(--amber-light); color: var(--amber); }
+  .pill.flag    { background: var(--flag-light);  color: var(--flag); }
+
+  /* ── COLLAPSIBLE ── */
+  .detail-group { margin-top: 36px; }
+  .detail-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    border-top: 2px solid var(--navy);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+  }
+  .detail-toggle:hover { opacity: 0.8; }
+  .detail-toggle-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .detail-toggle-hint {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-right: 10px;
+  }
+  .detail-arrow {
+    font-size: 14px;
+    color: var(--gold);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .detail-body {
+    display: none;
+    padding: 22px 0 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .detail-body.open { display: block; }
+  .detail-arrow.open { transform: rotate(180deg); }
+
+  /* ── COMP TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin: 14px 0;
+  }
+  th {
+    background: var(--cream);
+    border-bottom: 2px solid var(--navy);
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
+  td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--ink);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.subj td { background: #eef2f5; font-weight: 600; }
+  .role-note { font-size: 11px; color: var(--ink-soft); display: block; margin-top: 2px; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; padding: 0; margin: 14px 0; }
+  .checklist li {
+    padding: 10px 0 10px 28px;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+  .checklist li.done::before  { background: var(--good); }
+  .checklist li.open::before  { background: var(--amber); }
+  .checklist li.legal::before { background: var(--flag); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy);
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 0;
+  }
+  .footer-left .wordmark { font-size: 12px; }
+  .footer-right {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    color: #6a8799;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .footer-right a { color: var(--gold); text-decoration: none; }
+
+  .note {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .header, .hero, .footer { padding-left: 22px; padding-right: 22px; }
+    .main { padding: 32px 22px 60px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .tiers { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="wordmark">John Mize <span>Real Estate</span></div>
+    <div class="tagline">Decision quality in real estate</div>
+  </div>
+  <div class="header-right">
+    <strong>Property Analysis</strong><br>
+    Prepared Jun 12, 2026<br>
+    johnmize.com
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-address">38104 Hillview Lane NE</div>
+  <div class="hero-sub">Hansville, WA 98340 &nbsp;&middot;&nbsp; Point No Point &nbsp;&middot;&nbsp; Kitsap County</div>
+  <div class="hero-chips">
+    <div class="chip">2,312 sf finished</div>
+    <div class="chip">3 bd &nbsp;/&nbsp; 3 ba</div>
+    <div class="chip">4.97 acres</div>
+    <div class="chip">Built 1989 + 2007 addition</div>
+    <div class="chip">Puget Sound &amp; Mt. Baker views</div>
+    <div class="chip">Detached shop</div>
+    <div class="chip"><strong>Listed $995,000</strong></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- CRITICAL FINDING -->
+  <div class="finding">
+    <div class="finding-label">Critical finding &nbsp;&middot;&nbsp; affects value and offer</div>
+    <h2>This property is legally limited to 3 bedrooms.&nbsp; It is marketed as 4.</h2>
+    <p>Kitsap County Health District records include a recorded "Notice to Title for Limited Bedroom Capacity" (filed July 2006) that runs with the land.  It states the property may not be sold, leased, rented, or occupied with more than 3 bedrooms, based on the capacity of the onsite septic system.  This notice cannot be removed without written approval from the Environmental Health Division.</p>
+    <p>The property's listing markets it as a 4-bedroom home with rental potential based on a second living wing.  That framing is not consistent with the legal record.  The practical effect: any offer would reflect the 3-bedroom record, and lenders would underwrite it accordingly.  Title will confirm whether the notice remains active.</p>
+  </div>
+
+  <!-- THE PROPERTY -->
+  <h2 class="section">The Property</h2>
+
+  <p>The original 1989 single-story rambler was expanded in 2006&ndash;2007 with a fully permitted addition that doubled the footprint.  The listing describes the two sections as connected by a stone-floor breezeway, each with its own entrance.  The addition includes a loft level and a 1,155 sf unfinished wood shop below.  Both sides have ductless mini-splits (permitted 2011) plus supplemental electric heat.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-k">Finished Living Area</div>
+      <div class="stat-v">2,312 sf <small>+1,155 sf unfinished shop</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Legal Beds / Baths</div>
+      <div class="stat-v">3 bd / 3 ba</div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Lot</div>
+      <div class="stat-v">4.97 acres <small>bordered by county parkland</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Outbuildings</div>
+      <div class="stat-v">Detached 2-car shop <small>+ approx. 12&times;12 shed; power &amp; water apparent from listing photos</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">View</div>
+      <div class="stat-v">Puget Sound, Mt. Baker <small>Point No Point lighthouse</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">View Corridor</div>
+      <div class="stat-v">Kitsap County parkland to north <small>county park land is not zoned for residential development &mdash; <a href="https://www.kitsap.gov/parks/Pages/PointNoPointPark.aspx" style="color:var(--green);">kitsap.gov/parks</a></small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Utilities</div>
+      <div class="stat-v">Community water <small>private septic, no HOA</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Permit Record</div>
+      <div class="stat-v">Clean &amp; finaled <small>addition closed 9/21/2009</small></div>
+    </div>
+  </div>
+
+  <p>The condition is good to great for the area.  The main section shows some dated finishes but is in solid shape.  The view corridor to the north faces Puget Sound, the Point No Point lighthouse, and Mount Baker, with Kitsap County parkland as the adjoining land to the north, which is not zoned for residential development.</p>
+
+  <!-- MARKET CONTEXT -->
+  <h2 class="section">Market Context</h2>
+
+  <p>Hansville is a low-volume, spread-out market on the northern tip of the Kitsap Peninsula.  About 45 homes sold here in the past year at a median price near $685,000, and homes typically spend around 65 days on market.  Values are down roughly 8% year over year.</p>
+
+  <p>This property has been listed 28 days.  It was originally listed at $1,050,000 and reduced $55,000 to $995,000 on day 26.  A price reduction inside 30 days in a 65-day market is a clear signal: the seller found resistance and moved.  That works in your favor.</p>
+
+  <!-- WHAT WE THINK IT'S WORTH -->
+  <h2 class="section">What We Think It Is Worth</h2>
+
+  <p>View-plus-acreage properties in Hansville without waterfront access form a thin comparable set.  The analysis anchors on recent sales and works outward from the most comparable to the least, adjusting for the differences that move price in this market: view quality, lot size, outbuildings, age, and bedroom count.</p>
+
+  <p>The cleanest baseline is 6691 Buck Lake Rd NE, which sold in March 2026 for $895,000... near-identical size and acreage, no view, no shop.  The subject's north Sound view (unobstructed, with county parkland as the adjoining land) and the detached shop package add meaningful value above that base.  The bedroom cap applies a modest discount against the marketed 4-bed story.</p>
+
+
+
+  <!-- OFFER GUIDANCE -->
+  <h2 class="section">Offer Guidance</h2>
+
+  <p>The three tiers below reflect different offer postures and their likely implications.  The 3-bedroom county record is the documented basis for pricing in any of the three scenarios.  Which tier fits depends on your priorities and timeline.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-lbl">Aggressive</div>
+      <div class="tier-price">$930,000</div>
+      <div class="tier-band">$920K &ndash; $940K</div>
+      <ul>
+        <li>Would open ~$65K below the reduced list.</li>
+        <li>Leans on the legal 3-bedroom record and the seller's demonstrated willingness to move.</li>
+        <li>Would leave room to negotiate upward if needed.</li>
+      </ul>
+    </div>
+    <div class="tier mid">
+      <div class="tier-lbl">Market entry</div>
+      <div class="tier-price">$970,000</div>
+      <div class="tier-band">$960K &ndash; $980K</div>
+      <ul>
+        <li>Would pay supportable fair value based on comparable sales.</li>
+        <li>Likely path to a straightforward transaction.</li>
+        <li>Reduces back-and-forth while still reflecting the 3-bed record.</li>
+      </ul>
+    </div>
+    <div class="tier">
+      <div class="tier-lbl">Strong</div>
+      <div class="tier-price">$995,000</div>
+      <div class="tier-band">$985K &ndash; $1,005K</div>
+      <ul>
+        <li>Would meet the reduced list price.</li>
+        <li>Prioritizes certainty over economics.</li>
+        <li>Still within the supportable range based on comparable sales.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note" style="margin-top:12px;"><strong>Market timing:</strong> The seller is at 28 days in a market where homes typically take 65 days to sell, and has already reduced the price once.  An offer in any of these ranges would be engaging a motivated seller at a point where time is beginning to work against them.</p>
+
+  <!-- WHAT TO VERIFY -->
+  <h2 class="section">What to Verify Before Closing</h2>
+  <ul class="checklist">
+    <li class="legal"><strong>3-bedroom Notice to Title.</strong>  County records show a notice limiting this property to 3 bedrooms based on septic capacity.  Title will confirm whether it remains active. <span class="pill flag">title item</span></li>
+    <li class="open"><strong>Septic service.</strong>  Tank was last pumped in October 2020 and was in good condition.  Worth budgeting for a pump and inspection, as it will be approximately 6 years out from last service at closing. <span class="pill caution">budget item</span></li>
+    <li class="done"><strong>Building permit record &mdash; clean.</strong>  The 2007 addition was fully permitted (Kitsap DCD permit 06-40058) and closed out with all inspections complete on 9/21/2009.  Mini-splits permitted 2011.  No open permits. <span class="pill good">confirmed</span></li>
+  </ul>
+
+  <!-- COLLAPSIBLE DETAIL SECTIONS -->
+  <div class="detail-group">
+
+    <!-- COMP TABLE -->
+    <button class="detail-toggle" onclick="toggle(this)">
+      <span class="detail-toggle-label">Comparable Sales Detail</span>
+      <span style="display:flex;align-items:center;gap:6px;">
+        <span class="detail-toggle-hint">6 sales · 2024&ndash;2026</span>
+        <span class="detail-arrow">&#9660;</span>
+      </span>
+    </button>
+    <div class="detail-body">
+      <p class="note" style="margin-bottom:14px;">Recent sales used to establish the value range above.  Lot sizes and waterfront/view classifications confirmed against MLS.  Adjustments are directional, not a formal appraisal.</p>
+      <p class="note" style="margin-bottom:14px;"><a href="https://portal.onehome.com/en-US/share/1695635m59583" target="_blank" style="color:var(--green);font-weight:600;">View all comparable listings &rarr;</a> &nbsp; Full MLS listing detail for each sale below, including photos.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Property &middot; Date</th>
+            <th class="num">Price</th>
+            <th class="num">Bd/Ba</th>
+            <th class="num">Sq Ft</th>
+            <th>Lot &middot; View</th>
+            <th class="num">Yr</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>8554 Point No Point Rd NE<br><span class="role-note">Jul 2025 &middot; 11 days</span></td>
+            <td class="num">$1,500,000</td><td class="num">4/2</td><td class="num">2,316</td>
+            <td><span class="role-note">21,344 sf &middot; low-bank waterfront, 50' beach</span></td>
+            <td class="num">1970</td>
+            <td><span class="role-note">Waterfront ceiling.  Subject has no beach access.</span></td>
+          </tr>
+          <tr>
+            <td>4957 NE Canal Ln<br><span class="role-note">Jul 2025 &middot; 10 days</span></td>
+            <td class="num">$1,194,000</td><td class="num">3/3</td><td class="num">2,912</td>
+            <td><span class="role-note">11,761 sf &middot; low-bank waterfront</span></td>
+            <td class="num">1978</td>
+            <td><span class="role-note">Waterfront anchor.  Tiny lot vs. subject's 5 acres.</span></td>
+          </tr>
+          <tr>
+            <td>37549 Olympic View Rd NE<br><span class="role-note">May 2026 &middot; 31 days</span></td>
+            <td class="num">$1,049,000</td><td class="num">3/3</td><td class="num">3,686</td>
+            <td><span class="role-note">Driftwood Key &middot; west Olympic/Hood Canal view</span></td>
+            <td class="num">2008</td>
+            <td><span class="role-note">Recent view benchmark.  Larger, newer, HOA community.</span></td>
+          </tr>
+          <tr>
+            <td>34031 Bonnieview Ln NE<br><span class="role-note">Apr 2026 &middot; 109 days</span></td>
+            <td class="num">$900,000</td><td class="num">4/2.5</td><td class="num">1,972</td>
+            <td><span class="role-note">6.0 ac &middot; distant water view</span></td>
+            <td class="num">1966</td>
+            <td><span class="role-note">Acreage + view comp.  Subject's view quality superior.</span></td>
+          </tr>
+          <tr>
+            <td>6691 Buck Lake Rd NE<br><span class="role-note">Mar 2026 &middot; 9 days</span></td>
+            <td class="num">$895,000</td><td class="num">3/2.5</td><td class="num">2,347</td>
+            <td><span class="role-note">4.89 ac &middot; treed, no view</span></td>
+            <td class="num">2004</td>
+            <td><span class="role-note">Cleanest baseline.  Same size and acreage, no view, no shop.</span></td>
+          </tr>
+          <tr>
+            <td>2700 Mountain View Dr NE<br><span class="role-note">Aug 2024 &middot; 5 days</span></td>
+            <td class="num">$875,000</td><td class="num">3/2.5</td><td class="num">2,153</td>
+            <td><span class="role-note">9,148 sf &middot; partial bluff view, obstructed</span></td>
+            <td class="num">2018</td>
+            <td><span class="role-note">Partial-view benchmark.  Newer, small lot, compromised view vs. subject.</span></td>
+          </tr>
+          <tr class="subj">
+            <td>38104 Hillview Ln NE<br><span class="role-note">Subject property</span></td>
+            <td class="num">&mdash;</td><td class="num">3/3</td><td class="num">2,312</td>
+            <td><span class="role-note">4.97 ac &middot; unobstructed Sound + Baker + lighthouse (protected)</span></td>
+            <td class="num">1989</td>
+            <td><span class="role-note">Legal 3-bed; permitted addition; detached shop; septic cap.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PERMIT RECORD -->
+    <button class="detail-toggle" onclick="toggle(this)">
+      <span class="detail-toggle-label">Permit &amp; Title Record</span>
+      <span style="display:flex;align-items:center;gap:6px;">
+        <span class="detail-toggle-hint">All permits confirmed clean</span>
+        <span class="detail-arrow">&#9660;</span>
+      </span>
+    </button>
+    <div class="detail-body">
+      <p>The addition was built under Kitsap County DCD permit <strong>06-40058</strong>, issued October 10, 2006.  It went through full plan review with engineered structural calculations, multiple field inspections, and resolution of a wetland buffer enhancement condition.  The permit was closed and finaled <strong>September 21, 2009</strong> with all inspections complete.  The mini-splits were added under a separate mechanical permit in 2011.</p>
+      <ul class="checklist" style="margin-top:14px;">
+        <li class="done">Building permit 06-40058: addition &middot; <strong>Closed finaled 9/21/2009</strong> <span class="pill good">confirmed via Kitsap SmartGov</span></li>
+        <li class="done">Mechanical permit 11-99225: 2 mini-splits &middot; <strong>Issued 7/14/2011</strong> <span class="pill good">confirmed</span></li>
+        <li class="done">Septic as-built: 3-bedroom gravity system &middot; <strong>Approved 3/20/2008</strong> <span class="pill good">confirmed</span></li>
+        <li class="legal">Notice to Title, recording 200607120129: <strong>3-bedroom cap, filed 7/12/2006</strong> &mdash; active until amended by Environmental Health Division <span class="pill flag">runs with land</span></li>
+        <li class="open">Septic last pumped October 2020, good condition &middot; service due <span class="pill caution">~6 years out</span></li>
+      </ul>
+    </div>
+
+    <!-- MARKET CONTEXT DETAIL -->
+    <button class="detail-toggle" onclick="toggle(this)">
+      <span class="detail-toggle-label">Hansville Market Detail</span>
+      <span style="display:flex;align-items:center;gap:6px;">
+        <span class="detail-toggle-hint">Soft, thin market · buyer's conditions</span>
+        <span class="detail-arrow">&#9660;</span>
+      </span>
+    </button>
+    <div class="detail-body">
+      <div class="stats" style="margin-top:6px;">
+        <div class="stat"><div class="stat-k">Median sale price</div><div class="stat-v">$685,000</div></div>
+        <div class="stat"><div class="stat-k">Median SFR price</div><div class="stat-v">$761,050</div></div>
+        <div class="stat"><div class="stat-k">Avg price per sq ft</div><div class="stat-v">$406</div></div>
+        <div class="stat"><div class="stat-k">Median days on market</div><div class="stat-v">65 days</div></div>
+        <div class="stat"><div class="stat-k">Months of supply</div><div class="stat-v">4.3 months</div></div>
+        <div class="stat"><div class="stat-k">YoY price change</div><div class="stat-v">&minus;8%</div></div>
+        <div class="stat"><div class="stat-k">Sales last 12 months</div><div class="stat-v">45 homes</div></div>
+        <div class="stat"><div class="stat-k">Subject days on market</div><div class="stat-v">28 days <small>reduced day 26</small></div></div>
+      </div>
+      <p style="margin-top:6px;">Hansville trades slowly and in low volume.  The view-plus-acreage segment is especially thin... fewer than half a dozen genuinely comparable sales exist in the past 18 months.  That gives an informed buyer meaningful leverage because the seller cannot easily point to a better-priced alternative offer.</p>
+    </div>
+
+    <!-- COMMUNITY -->
+    <button class="detail-toggle" onclick="toggle(this)">
+      <span class="detail-toggle-label">Community &amp; Location</span>
+      <span style="display:flex;align-items:center;gap:6px;">
+        <span class="detail-toggle-hint">North Kitsap Peninsula</span>
+        <span class="detail-arrow">&#9660;</span>
+      </span>
+    </button>
+    <div class="detail-body">
+      <p><strong>Point No Point county park</strong> is directly adjacent to the north.  The park is county-owned and not zoned for residential development (<a href="https://www.kitsap.gov/parks/Pages/PointNoPointPark.aspx" style="color:var(--green);">kitsap.gov/parks</a>), which means the Sound/Baker/lighthouse view corridor faces no current development pressure from that direction.</p>
+      <p>The <strong>Hansville Greenway</strong> trail system connects to the lighthouse, Buck Lake County Park, and miles of hiking and beach access.  Point No Point Resort, a small grocery, and a cafe are nearby.  The community is deliberately rural and low-density.</p>
+      <p><strong>Getting to Seattle:</strong> Kingston ferry (~20&ndash;25 min drive) connects to Edmonds.  The Kingston passenger fast-ferry runs directly to downtown Seattle.  Drive time to Seattle without ferry is roughly 90 minutes.</p>
+      <p><strong>Schools:</strong> North Kitsap School District... David Wolfle Elementary, Kingston Middle, Kingston High School.</p>
+      <p><strong>Zoning:</strong> Rural Residential (RR).  No HOA.  5 private acres bordered on multiple sides by county parkland.</p>
+    </div>
+
+  </div><!-- end detail-group -->
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-left">
+    <div class="wordmark">John Mize <span>Real Estate</span></div>
+    <div class="tagline" style="margin-top:5px;">Decision quality in real estate</div>
+  </div>
+  <div class="footer-right">
+    Prepared Jun 12, 2026 &nbsp;&middot;&nbsp; <a href="https://johnmize.com">johnmize.com</a><br>
+    CENTURY 21 &nbsp;&middot;&nbsp; Seattle region, Pacific Northwest<br>
+    This analysis is for informational purposes and does not constitute legal or lending advice.
+  </div>
+</footer>
+
+<script>
+function toggle(btn) {
+  const body = btn.nextElementSibling;
+  const arrow = btn.querySelector('.detail-arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+</script>
+
+</body>
+</html>
